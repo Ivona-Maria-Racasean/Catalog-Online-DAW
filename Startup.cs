@@ -63,6 +63,8 @@ namespace Catalog_Online
                 app.UseSpaStaticFiles();
             }
 
+            app.UseCors("EnableCORS");
+
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
