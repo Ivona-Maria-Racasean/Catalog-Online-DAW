@@ -1,4 +1,4 @@
-﻿using Catalog_Online.Models;
+﻿using Catalog_Online.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Catalog_Online.Helper
@@ -29,7 +29,6 @@ namespace Catalog_Online.Helper
 
             modelBuilder.Entity<StudentData>()
                 .HasOne<User>()
-
                 .WithMany()
                 .HasForeignKey(sd => sd.UserId);
 

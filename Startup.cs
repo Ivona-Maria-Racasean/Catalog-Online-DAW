@@ -1,12 +1,14 @@
 using Catalog_Online.Helper;
+using Catalog_Online.Services;
+using Catalog_Online.Managers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Catalog_Online.ServicesImpl;
 
 namespace Catalog_Online
 {
@@ -27,6 +29,12 @@ namespace Catalog_Online
             services.AddDbContext<RepositoryContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddScoped<IUserService, UserServiceImpl>();
+            services.AddScoped<IStudentCertificateService, StudentCertificateServiceImpl>();
+            services.AddScoped<IStudentDataService, StudentDataServiceImpl>();
+
+
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {

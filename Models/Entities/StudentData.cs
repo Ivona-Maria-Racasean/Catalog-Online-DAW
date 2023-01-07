@@ -1,4 +1,4 @@
-﻿namespace Catalog_Online.Models
+﻿namespace Catalog_Online.Models.Entity
 {
     public class StudentData
     {
