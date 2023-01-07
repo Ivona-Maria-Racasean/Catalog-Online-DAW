@@ -17,7 +17,6 @@ namespace Catalog_Online.Controllers
             _studentDataService = studentDataService;
         }
 
-        [HttpGet]
         [HttpGet("{id:int}")]
         public ActionResult<StudentData> GetStudentDataByUserId(int id)
         {
