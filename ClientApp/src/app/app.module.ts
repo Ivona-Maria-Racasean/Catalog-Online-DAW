@@ -19,6 +19,15 @@ import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// auth
+import { JwtModule } from "@auth0/angular-jwt";
+import { AuthGuard } from './shared/guards/auth.guard';
+import { PrivacyComponent } from './privacy/privacy.component';
+
+
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
 
 @NgModule({
   declarations: [
@@ -30,7 +39,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     FetchDataComponent,
     RegisterComponent,
     StudentsComponent,
-    LoginComponent
+    LoginComponent,
+    PrivacyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -41,15 +51,25 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatTableModule,
     HttpClientModule,
     ReactiveFormsModule,
+    JwtModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
+      { path: 'login', component: LoginComponent},
+      { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
       { path: 'students', component: StudentsComponent },
+      { path: 'privacy', component: PrivacyComponent },
+
     ]),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        allowedDomains: ["localhost:44350"],
+        disallowedRoutes: []
+      }
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

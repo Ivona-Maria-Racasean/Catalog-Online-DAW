@@ -48,8 +48,10 @@ export class LoginComponent implements OnInit {
     this.authService.loginUser('api/login', userForAuth)
     .subscribe({
       next: (res:LoginResponseDto) => {
-       localStorage.setItem("token", res.token);
-       this.router.navigate([this.returnUrl]);
+        localStorage.setItem("token", res.jwToken);
+        //console.log(res);
+        this.authService.sendAuthStateChangeNotification(res.isAuthSuccessful);
+        this.router.navigate([this.returnUrl]);
     },
     error: (err: HttpErrorResponse) => {
       this.errorMessage = err.message;
