@@ -28,15 +28,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginComponent,
     FetchDataComponent,
     RegisterComponent,
-    MatPaginatorModule,
-    MatSortModule,
-    MatTableModule,
-    HttpClientModule
+    StudentsComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
+    MatPaginatorModule,
+    MatSortModule,
+    MatTableModule,
+    HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full' },
