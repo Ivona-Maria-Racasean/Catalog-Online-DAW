@@ -45,7 +45,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'student', component: StudentsComponent },
+      { path: 'students', component: StudentsComponent },
     ]),
     BrowserAnimationsModule
   ],
