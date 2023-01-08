@@ -6,5 +6,6 @@
         public string Name { get; set; }
         public string Semester { get; set; }
         public int YearOfTeaching { get; set; }
+        public string TeacherName { get; set; }
     }
 }
