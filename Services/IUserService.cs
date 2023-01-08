@@ -10,5 +10,12 @@ namespace Catalog_Online.Services
         public User GetUserById(int id);
 
         public List<User> GetAllUsers();
+
+        public User GetUserByEmail(string email);
+
+        public bool CheckPassword(User user, string password);
+
+        public Role GetUserRole(User user);
+
     }
 }

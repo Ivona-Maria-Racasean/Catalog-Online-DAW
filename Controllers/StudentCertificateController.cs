@@ -1,10 +1,12 @@
 ﻿using Catalog_Online.Models.Dtos;
 using Catalog_Online.Models.Entity;
 using Catalog_Online.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Catalog_Online.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class StudentCertificateController : ControllerBase
@@ -23,7 +25,7 @@ namespace Catalog_Online.Controllers
             return Ok(result);
         }
 
-
+        [Authorize(Roles = "Student")]
         [HttpPost]
         public ActionResult<StudentCertificate> CreateStudentCertificate([FromBody] StudentCertificateDto dto) 
         {

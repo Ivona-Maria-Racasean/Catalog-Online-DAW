@@ -3,6 +3,7 @@ using Catalog_Online.Helper;
 using Catalog_Online.Services;
 using Catalog_Online.Models.Entity;
 using System.Collections.Generic;
+using System;
 
 namespace Catalog_Online.Managers
 {
@@ -23,12 +24,31 @@ namespace Catalog_Online.Managers
             return _context.Users.FirstOrDefault(u => u.Id == id);
         }
 
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
+
         public User RegisterUser(User user)
         {   
             var newUser = _context.Users.Add(user);
             _context.SaveChanges();
             return newUser.Entity;
+        }
 
+        public bool CheckPassword(User user, string password)
+        {
+            // Ar trebui sa adaugam un fel de cryptare ca sa nu salvam parolele in plain-text (pt mai tarziu)
+            if(user.Password == password)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public Role GetUserRole(User user)
+        {
+            return _context.Roles.FirstOrDefault(r => r.Id == user.RoleId);
         }
     }
 }
