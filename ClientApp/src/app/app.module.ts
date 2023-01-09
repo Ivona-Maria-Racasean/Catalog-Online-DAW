@@ -22,7 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // auth
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './shared/guards/auth.guard';
-import { PrivacyComponent } from './privacy/privacy.component';
+//import { PrivacyComponent } from './privacy/privacy.component';
 
 
 export function tokenGetter() {
@@ -40,7 +40,7 @@ export function tokenGetter() {
     RegisterComponent,
     StudentsComponent,
     LoginComponent,
-    PrivacyComponent
+    //PrivacyComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -51,25 +51,31 @@ export function tokenGetter() {
     MatTableModule,
     HttpClientModule,
     ReactiveFormsModule,
-    JwtModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
+      { path: '', component: HomeComponent, pathMatch: 'full'},
+      { path: 'counter', component: CounterComponent, canActivate: [AuthGuard]  },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'login', component: LoginComponent},
-      { path: 'register', component: RegisterComponent, canActivate: [AuthGuard] },
+      { path: 'register', component: RegisterComponent },
       { path: 'students', component: StudentsComponent },
-      { path: 'privacy', component: PrivacyComponent },
+     // { path: 'privacy', component: PrivacyComponent },
 
     ]),
     BrowserAnimationsModule,
+    // JwtModule.forRoot({
+    //   config: {
+    //     tokenGetter: tokenGetter,
+    //     whitelistedDomains: ["localhost:44350"],// whitelistedDomains nu face parte din jwtConfig
+    //     blacklistedRoutes: [],
+    //   },
+    // }),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
-        allowedDomains: ["localhost:44350"],
-        disallowedRoutes: []
+        whitelistedDomains: ["localhost:44350"],
+        blacklistedRoutes: []
       }
-    })
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

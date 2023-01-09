@@ -24,6 +24,7 @@ export class AuthenticationService {
     const token = localStorage.getItem("token");
 
     return token && !this.jwtHelper.isTokenExpired(token);
+    console.log(token);
   }
 
   public loginUser = (route: string, body: LoginInfoDto) => {

@@ -49,7 +49,7 @@ export class LoginComponent implements OnInit {
     .subscribe({
       next: (res:LoginResponseDto) => {
         localStorage.setItem("token", res.jwToken);
-        //console.log(res);
+        console.log(res);
         this.authService.sendAuthStateChangeNotification(res.isAuthSuccessful);
         this.router.navigate([this.returnUrl]);
     },
