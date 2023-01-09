@@ -8,7 +8,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StudentsComponent } from './students/students.component';
 
@@ -20,6 +20,17 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TeachersComponent } from './teachers/teachers.component';
 
+// auth
+import { JwtModule } from "@auth0/angular-jwt";
+import { AuthGuard } from './shared/guards/auth.guard';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { PrivacyComponent } from './privacy/privacy.component';
+
+
+export function tokenGetter() {
+  return localStorage.getItem("token");
+}
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,6 +41,9 @@ import { TeachersComponent } from './teachers/teachers.component';
     FetchDataComponent,
     RegisterComponent,
     StudentsComponent,
+    LoginComponent,
+    ForbiddenComponent,
+    PrivacyComponent,
     TeachersComponent
   ],
   imports: [
@@ -42,15 +56,22 @@ import { TeachersComponent } from './teachers/teachers.component';
     HttpClientModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
+      { path: '', component: HomeComponent, pathMatch: 'full'},
+      { path: 'counter', component: CounterComponent, canActivate: [AuthGuard]  },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'login', component: LoginComponent },
+      { path: 'login', component: LoginComponent},
       { path: 'register', component: RegisterComponent },
       { path: 'students', component: StudentsComponent },
       { path: 'teachers', component: TeachersComponent },
     ]),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: ["localhost:44350"],
+        blacklistedRoutes: []
+      }
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]

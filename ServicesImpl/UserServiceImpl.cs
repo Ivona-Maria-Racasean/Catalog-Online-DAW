@@ -4,6 +4,7 @@ using Catalog_Online.Services;
 using Catalog_Online.Models.Entity;
 using System.Collections.Generic;
 using System;
+using Catalog_Online.Models.Dtos;
 
 namespace Catalog_Online.Managers
 {
@@ -51,14 +52,41 @@ namespace Catalog_Online.Managers
             return _context.Roles.FirstOrDefault(r => r.Id == user.RoleId);
         }
 
-        public List<User> GetTeachers()
+        public List<StudentUserListing> GetAllStudentUsersData()
         {
-           List<User> users =  _context.Users.ToList();
-            List<User> teachers = new List<User>();
-            for (int i=0; i< users.Count; i++)
+            List<User> users = _context.Users.ToList();
+            List<StudentUserListing> studentUsers = new List<StudentUserListing>();
+
+            for (int i = 0; i < users.Count; i++)
             {
                 Role role = GetUserRole(users[i]);
-                if(role.Name == "Teacher")
+                if (role.Name == "Student")
+                {
+                    var StudentData = _context.StudentsData.FirstOrDefault(sd => sd.UserId == users[i].Id);
+                    StudentUserListing listing = new()
+                    {
+                        User = users[i],
+                        Id = StudentData.Id,
+                        UserId = users[i].Id,
+                        YearOfStudying = StudentData.YearOfStudying,
+                        RegistrationNumber = StudentData.RegistrationNumber,
+                        Class = StudentData.Class
+                    };
+
+                    studentUsers.Add(listing);
+                }
+            }
+            return studentUsers;
+        }
+
+        public List<User> GetTeachers()
+        {
+            List<User> users = _context.Users.ToList();
+            List<User> teachers = new List<User>();
+            for (int i = 0; i < users.Count; i++)
+            {
+                Role role = GetUserRole(users[i]);
+                if (role.Name == "Teacher")
                 {
                     teachers.Add(users[i]);
                 }
