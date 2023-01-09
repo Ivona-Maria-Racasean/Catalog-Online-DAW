@@ -4,6 +4,7 @@ import { LoginResponseDto } from 'app/interfaces/response/loginResponseDto.model
 import { LoginInfoDto } from 'app/interfaces/user/loginInfoDto.model';
 import { Subject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { RoleType } from 'app/models/api-models/role-type';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,14 @@ export class AuthenticationService {
     const token = localStorage.getItem("token");
     const decodedToken = this.jwtHelper.decodeToken(token);
     const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-    return role === 'Admin';
+    return role === RoleType.admin;
+  }
+
+  public isUserSecretery = (): boolean => {
+    const token = localStorage.getItem("token");
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+    return role === RoleType.secretary;
   }
 
   public loginUser = (route: string, body: LoginInfoDto) => {
