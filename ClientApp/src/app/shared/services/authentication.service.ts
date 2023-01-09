@@ -27,6 +27,13 @@ export class AuthenticationService {
     console.log(token);
   }
 
+  public isUserAdmin = (): boolean => {
+    const token = localStorage.getItem("token");
+    const decodedToken = this.jwtHelper.decodeToken(token);
+    const role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+    return role === 'Admin';
+  }
+
   public loginUser = (route: string, body: LoginInfoDto) => {
     return this.http.post<LoginResponseDto>('https://localhost:44350/' + route, body);
   }

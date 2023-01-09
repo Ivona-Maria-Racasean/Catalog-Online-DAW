@@ -22,7 +22,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // auth
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './shared/guards/auth.guard';
-//import { PrivacyComponent } from './privacy/privacy.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 
 export function tokenGetter() {
@@ -40,7 +41,8 @@ export function tokenGetter() {
     RegisterComponent,
     StudentsComponent,
     LoginComponent,
-    //PrivacyComponent
+    ForbiddenComponent,
+    PrivacyComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -58,17 +60,11 @@ export function tokenGetter() {
       { path: 'login', component: LoginComponent},
       { path: 'register', component: RegisterComponent },
       { path: 'students', component: StudentsComponent },
-     // { path: 'privacy', component: PrivacyComponent },
+      { path: 'privacy', component: PrivacyComponent },
+      { path: 'forbidden', component: ForbiddenComponent },
 
     ]),
     BrowserAnimationsModule,
-    // JwtModule.forRoot({
-    //   config: {
-    //     tokenGetter: tokenGetter,
-    //     whitelistedDomains: ["localhost:44350"],// whitelistedDomains nu face parte din jwtConfig
-    //     blacklistedRoutes: [],
-    //   },
-    // }),
     JwtModule.forRoot({
       config: {
         tokenGetter: tokenGetter,
