@@ -33,6 +33,17 @@ namespace Catalog_Online
             services.AddDbContext<RepositoryContext>(options => {
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("EnableCORS", builder =>
+                {
+                    builder.AllowAnyOrigin()
+                       .AllowAnyHeader()
+                       .AllowAnyMethod();
+                });
+            });
+
             // Inregistram serviciile utilizate pentru a fi injectate in controllere/serviciile care le utilizeaza
             services.AddScoped<IUserService, UserServiceImpl>();
             services.AddScoped<IStudentCertificateService, StudentCertificateServiceImpl>();
@@ -75,6 +86,8 @@ namespace Catalog_Online
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors("EnableCORS");
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -94,6 +107,8 @@ namespace Catalog_Online
             }
 
             app.UseRouting();
+
+            
 
             app.UseAuthentication();
             app.UseAuthorization();
