@@ -50,5 +50,22 @@ namespace Catalog_Online.Managers
         {
             return _context.Roles.FirstOrDefault(r => r.Id == user.RoleId);
         }
+
+        public List<User> GetTeachers()
+        {
+           List<User> users =  _context.Users.ToList();
+            List<User> teachers = new List<User>();
+            for (int i=0; i< users.Count; i++)
+            {
+                Role role = GetUserRole(users[i]);
+                if(role.Name == "Teacher")
+                {
+                    teachers.Add(users[i]);
+                }
+
+            }
+
+            return teachers;
+        }
     }
 }

@@ -8,11 +8,11 @@ namespace Catalog_Online.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RegisterController : ControllerBase
+    public class UserController : ControllerBase
     {
         IUserService _userService;
 
-        public RegisterController(IUserService userService)
+        public UserController(IUserService userService)
         {
             _userService = userService;
         } 
@@ -48,6 +48,13 @@ namespace Catalog_Online.Controllers
         public ActionResult<List<User>> GetAllUsers()
         {
             return _userService.GetAllUsers();
+
+        }
+
+        [HttpGet("teachers")]
+        public ActionResult<List<User>> GetTeachers()
+        {
+            return _userService.GetTeachers();
 
         }
     }
