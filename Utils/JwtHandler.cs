@@ -24,13 +24,14 @@ namespace Catalog_Online.Utils
             _userService = userService;
         }
 
+        // Returneaza un obiect SigningCrentials care contine cheia de securitate din appsettings.json.
         public SigningCredentials GetSigningCredentials()
         {
             var key = Encoding.UTF8.GetBytes(_jwtSettings.GetSection("securityKey").Value);
             var secret = new SymmetricSecurityKey(key);
             return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
         }
-
+        // Generam lista de claimuri ale userului
         public List<Claim> GetClaims(User user)
         {
             var claims = new List<Claim>
@@ -41,6 +42,7 @@ namespace Catalog_Online.Utils
             return claims;
         }
 
+        //Generam bearer tokenul cu folosind signingCredentials si lista de claimuri
         public JwtSecurityToken GenerateTokenOptions(SigningCredentials signingCredentials, List<Claim> claims)
         {
             var tokenOptions = new JwtSecurityToken(
