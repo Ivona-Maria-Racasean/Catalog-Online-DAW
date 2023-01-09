@@ -55,22 +55,26 @@ namespace Catalog_Online.Managers
         public List<StudentUserListing> GetAllStudentUsersData()
         {
             List<User> users = _context.Users.ToList();
-            List<StudentUserListing> studentUsers = new List<StudentUserListing>(); ;
+            List<StudentUserListing> studentUsers = new List<StudentUserListing>();
 
             for (int i = 0; i < users.Count; i++)
             {
-                var StudentData = _context.StudentsData.FirstOrDefault(sd => sd.UserId == users[i].Id);
-                StudentUserListing listing = new()
+                Role role = GetUserRole(users[i]);
+                if (role.Name == "Student")
                 {
-                    User = users[i],
-                    Id = StudentData.Id,
-                    UserId = users[i].Id,
-                    YearOfStudying = StudentData.YearOfStudying,
-                    RegistrationNumber = StudentData.RegistrationNumber,
-                    Class = StudentData.Class
-                };
+                    var StudentData = _context.StudentsData.FirstOrDefault(sd => sd.UserId == users[i].Id);
+                    StudentUserListing listing = new()
+                    {
+                        User = users[i],
+                        Id = StudentData.Id,
+                        UserId = users[i].Id,
+                        YearOfStudying = StudentData.YearOfStudying,
+                        RegistrationNumber = StudentData.RegistrationNumber,
+                        Class = StudentData.Class
+                    };
 
-                studentUsers.Add(listing);
+                    studentUsers.Add(listing);
+                }
             }
             return studentUsers;
         }
