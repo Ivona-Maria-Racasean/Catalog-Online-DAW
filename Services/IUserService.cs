@@ -20,5 +20,7 @@ namespace Catalog_Online.Services
 
         public Role GetUserRole(User user);
 
+        public List<User> GetTeachers();
+
     }
 }
