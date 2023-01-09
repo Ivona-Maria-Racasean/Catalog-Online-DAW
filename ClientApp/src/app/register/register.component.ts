@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthenticationService } from 'app/shared/services/authentication.service';
 import { PasswordConfirmationValidatorService } from '../shared/custom-validators/password-confirmation-validator-service.service';
 
 @Component({
@@ -10,7 +12,7 @@ import { PasswordConfirmationValidatorService } from '../shared/custom-validator
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
 
-  constructor(private _passConfValidator: PasswordConfirmationValidatorService) { }
+  constructor(private authService: AuthenticationService,private _passConfValidator: PasswordConfirmationValidatorService, private router: Router) { }
 
   ngOnInit(): void {
     this.registerForm = new FormGroup({
@@ -21,6 +23,7 @@ export class RegisterComponent implements OnInit {
 
     this.registerForm.get('passwordAgain').setValidators([Validators.required, this._passConfValidator.validateConfirmPassword(this.registerForm.get('password'))]);
   }
+
 
   public validateControl(controlName: string) {
     return (
@@ -36,7 +39,8 @@ export class RegisterComponent implements OnInit {
   public registerUser(registerFormValue) {
     console.log("Email: " + registerFormValue.email)
     console.log("Password: " + registerFormValue.password)
-    console.log("Password Again: " + registerFormValue.passwordAgain ) 
+    console.log("Password Again: " + registerFormValue.passwordAgain )
+    next: (_) => this.router.navigate(["/authentication/login"])
   }
 
 }
