@@ -14,7 +14,6 @@ namespace Catalog_Online.Helper
         public DbSet<Role> Roles { get; set; }
         public DbSet<StudentData> StudentsData { get; set; } 
         public DbSet<StudentCertificate> StudentCertificates { get; set; }  
-        public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Mark> Marks { get; set; }  
         
@@ -36,16 +35,6 @@ namespace Catalog_Online.Helper
                .HasOne<User>()
                .WithMany()
                .HasForeignKey(sc => sc.UserId);
-
-            modelBuilder.Entity<Teacher>()
-              .HasOne<User>()
-              .WithMany()
-              .HasForeignKey(t => t.UserId);
-
-            modelBuilder.Entity<Subject>()
-                .HasOne<Teacher>()
-                .WithMany()
-                .HasForeignKey(s => s.TeacherId);
 
             modelBuilder.Entity<Mark>()
                 .HasOne<Subject>()

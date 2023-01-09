@@ -40,20 +40,20 @@
       <!-- First Name Column -->
       <ng-container matColumnDef="firstName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.firstName}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.user.firstName}} </td>
       </ng-container>
 
       <!-- Last Name Column -->
       <ng-container matColumnDef="lastName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.lastName}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.user.lastName}} </td>
       </ng-container>
 
 
       <!-- Email Column -->
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.user.email}} </td>
       </ng-container>
 
 
