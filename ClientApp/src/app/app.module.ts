@@ -18,6 +18,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TeachersComponent } from './teachers/teachers.component';
 
 // auth
 import { JwtModule } from "@auth0/angular-jwt";
@@ -43,6 +44,7 @@ export function tokenGetter() {
     LoginComponent,
     ForbiddenComponent,
     PrivacyComponent,
+    TeachersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -60,9 +62,7 @@ export function tokenGetter() {
       { path: 'login', component: LoginComponent},
       { path: 'register', component: RegisterComponent },
       { path: 'students', component: StudentsComponent },
-      { path: 'privacy', component: PrivacyComponent },
-      { path: 'forbidden', component: ForbiddenComponent },
-
+      { path: 'teachers', component: TeachersComponent },
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({

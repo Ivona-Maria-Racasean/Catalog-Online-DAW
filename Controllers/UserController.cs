@@ -57,6 +57,12 @@ namespace Catalog_Online.Controllers
 
         }
 
+        [HttpGet("teachers")]
+        public ActionResult<List<User>> GetTeachers()
+        {
+            return _userService.GetTeachers();
+        }
+
         [HttpGet("StudentData")]
         public ActionResult<List<StudentUserListing>> GetAllStudentUsersData()
         {
