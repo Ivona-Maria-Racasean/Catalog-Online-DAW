@@ -4,6 +4,7 @@ using Catalog_Online.Services;
 using Catalog_Online.Models.Entity;
 using System.Collections.Generic;
 using System;
+using Catalog_Online.Models.Dtos;
 
 namespace Catalog_Online.Managers
 {
@@ -49,6 +50,29 @@ namespace Catalog_Online.Managers
         public Role GetUserRole(User user)
         {
             return _context.Roles.FirstOrDefault(r => r.Id == user.RoleId);
+        }
+
+        public List<StudentUserListing> GetAllStudentUsersData()
+        {
+            List<User> users = _context.Users.ToList();
+            List<StudentUserListing> studentUsers = new List<StudentUserListing>(); ;
+
+            for (int i = 0; i < users.Count; i++)
+            {
+                var StudentData = _context.StudentsData.FirstOrDefault(sd => sd.UserId == users[i].Id);
+                StudentUserListing listing = new()
+                {
+                    User = users[i],
+                    Id = StudentData.Id,
+                    UserId = users[i].Id,
+                    YearOfStudying = StudentData.YearOfStudying,
+                    RegistrationNumber = StudentData.RegistrationNumber,
+                    Class = StudentData.Class
+                };
+
+                studentUsers.Add(listing);
+            }
+            return studentUsers;
         }
     }
 }
