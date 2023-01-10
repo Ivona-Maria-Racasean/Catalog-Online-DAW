@@ -14,6 +14,8 @@ namespace Catalog_Online.Services
 
         public List<StudentUserListing> GetAllStudentUsersData();
 
+        public List<UserRolDto> GetAllUserData();
+
         public User GetUserByEmail(string email);
 
         public bool CheckPassword(User user, string password);

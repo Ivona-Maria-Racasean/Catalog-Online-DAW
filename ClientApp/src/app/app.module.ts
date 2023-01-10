@@ -27,6 +27,9 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './shared/guards/auth.guard';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { UsersComponent } from './users/users.component';
+
+
 
 
 export function tokenGetter() {
@@ -47,7 +50,8 @@ export function tokenGetter() {
     ForbiddenComponent,
     PrivacyComponent,
     TeachersComponent,
-    MarksComponent
+    MarksComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -66,7 +70,8 @@ export function tokenGetter() {
       { path: 'register', component: RegisterComponent },
       { path: 'students', component: StudentsComponent },
       { path: 'teachers', component: TeachersComponent },
-      { path: 'marks', component: MarksComponent }
+      { path: 'marks', component: MarksComponent },
+      { path: 'users', component: UsersComponent },
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({
