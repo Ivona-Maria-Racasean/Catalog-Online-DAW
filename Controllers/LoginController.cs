@@ -38,7 +38,7 @@ namespace Catalog_Online.Controllers
             var tokenLogin = new LoginResultDto();
             tokenLogin.IsAuthSuccessful = true;
 
-            var signingCredentials = _jwtHandler.GetSigningCredentials();
+            var signingCredentials = _jwtHandler.GetSigningCredentials(); //aici genereaza signin creds pe baza security key-ului din appsettings
             var claims = _jwtHandler.GetClaims(user);
             var tokenOptions = _jwtHandler.GenerateTokenOptions(signingCredentials, claims);
             tokenLogin.JWToken = new JwtSecurityTokenHandler().WriteToken(tokenOptions);

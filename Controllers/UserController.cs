@@ -23,7 +23,7 @@ namespace Catalog_Online.Controllers
         } 
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+       //Authorize(Roles = "Admin")]
         public ActionResult<User> Register([FromBody] RegisterDto registerDto)
         {
             User user = new()
@@ -85,8 +85,7 @@ namespace Catalog_Online.Controllers
             
             var user = _userService.GetUserByEmail(email);
 
-            // Vorbeste cu Flori ce entitati are nevoie si modifica
-            // returnul
+            // Sa vorbesc cu Flori de ce fielduri are nevoie 
             return Ok(new
             {
                 id = user.Id,

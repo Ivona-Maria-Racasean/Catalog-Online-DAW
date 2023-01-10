@@ -33,7 +33,7 @@ namespace Catalog_Online.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<List<Mark>> GetMarksByUserId(int id)
+        public ActionResult<List<GetMarkWithSubjectDto>> GetMarksByUserId(int id)
         {
             return _markService.GetMarksByUserId(id);
         }
