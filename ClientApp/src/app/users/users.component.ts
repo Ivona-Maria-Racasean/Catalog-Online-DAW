@@ -20,7 +20,7 @@ export class UsersComponent implements OnInit {
   public showError: boolean
 
   user: User[] = [];
-  displayedColumns: string[] = ['firstName','firstName', 'lastName', 'email', 'address', 'phoneNumber'];
+  displayedColumns: string[] = ['firstName', 'lastName','rol', 'email', 'address', 'phoneNumber'];
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
   @ViewChild(MatPaginator, {static: true}) matPaginator!: MatPaginator;
   filterString = '';
@@ -32,7 +32,7 @@ export class UsersComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.userService.getAllUsers()
+    this.userService.GetAllUserData()
       .subscribe(
         (successResponse) => {
           this.user = successResponse;
@@ -57,10 +57,13 @@ export class UsersComponent implements OnInit {
         }
       );
 
+
+      
       this.registerForm = new FormGroup({
 
         firstName: new FormControl("", [Validators.required]),
         lastName: new FormControl("", [Validators.required]),
+        rol: new FormControl("", [Validators.required]),
         email: new FormControl("", [Validators.required, Validators.email]),
         password: new FormControl("", [Validators.required]),
         address: new FormControl("", [Validators.required]),

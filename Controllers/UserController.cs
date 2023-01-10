@@ -64,6 +64,13 @@ namespace Catalog_Online.Controllers
 
         }
 
+        [HttpGet("UserRol")]
+        public ActionResult<List<UserRolDto>> GetAllUserData()
+        {
+            return _userService.GetAllUserData();
+
+        }
+
         [HttpGet("GetCurrentUser"), Authorize]
         public IActionResult GetCurrentUser()
         {
