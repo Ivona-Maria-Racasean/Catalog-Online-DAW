@@ -23,7 +23,7 @@ namespace Catalog_Online.Controllers
         } 
 
         [HttpPost]
-       //Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public ActionResult<User> Register([FromBody] RegisterDto registerDto)
         {
             User user = new()
@@ -67,6 +67,13 @@ namespace Catalog_Online.Controllers
         public ActionResult<List<StudentUserListing>> GetAllStudentUsersData()
         {
             return _userService.GetAllStudentUsersData();
+
+        }
+
+        [HttpGet("UserRol")]
+        public ActionResult<List<UserRolDto>> GetAllUserData()
+        {
+            return _userService.GetAllUserData();
 
         }
 

@@ -1,5 +1,5 @@
 export enum ApiCallPaths {
   apiUrl = "https://localhost:44350/",
-  registerPath = "api/register",
+  registerPath = "api/user",
   loginPath = "api/login",
 }

@@ -1,3 +1,5 @@
+import { Rol } from "./rol.model";
+
 export interface User {
   id: string,
   reload: string,
@@ -8,4 +10,5 @@ export interface User {
   address: string,
   phoneNumber: string,
   roles: string;
+  rol: Rol,
 }
