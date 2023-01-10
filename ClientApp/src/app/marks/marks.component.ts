@@ -24,13 +24,20 @@ export class MarksComponent implements OnInit {
   constructor(private route: ActivatedRoute,
           private markService: MarkService) { }
 
-  ngOnInit(): void {
-    //Fetch Marks
-    this.markService.getMarksByStudentId(+this.route.snapshot.params['id'])
-    .subscribe(
-      (successResponse) => {
-        this.marks = successResponse;
-        console.log(this.marks)
-      })
+  async ngOnInit() {
+    this.route.queryParams.subscribe(async params => {
+      let studentId = params['id']
+      //Fetch Marks
+      this.marks = await this.markService.getMarksByStudentId(studentId).toPromise();
+      this.dataSource = new MatTableDataSource<Mark>(this.marks);
+
+      if (this.matPaginator) {
+        this.dataSource.paginator = this.matPaginator;
+      }
+
+      if (this.matSort) {
+        this.dataSource.sort = this.matSort;
+      }
+    })
   }
 }

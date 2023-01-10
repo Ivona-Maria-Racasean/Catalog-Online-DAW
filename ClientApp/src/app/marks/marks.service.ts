@@ -14,6 +14,6 @@ export class MarkService {
   constructor(private httpClient: HttpClient) { }
 
   getMarksByStudentId(id): Observable<Mark[]> {
-    return this.httpClient.get <Mark[]> (this.baseAPiUrl + '/api/mark/:id')
+    return this.httpClient.get<Mark[]>(this.baseAPiUrl + '/api/mark/' + id)
   }
 }

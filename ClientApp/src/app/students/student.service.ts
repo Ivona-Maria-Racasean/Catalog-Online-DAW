@@ -16,5 +16,4 @@ export class StudentService {
     return this.httpClient.get<StudentData[]>(this.baseAPiUrl + '/api/user/StudentData');
   }
 
-
 }
