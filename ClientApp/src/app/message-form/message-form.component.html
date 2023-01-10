@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <h2>Message a teacher</h2>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6 text-center">
+            <div class="form-group">
+                <select [(ngModel)]="selectedTeacher" class="form-control" id="teacherSelect">
+                    <option value="-1">Please select a teacher to message</option>
+                    <option *ngFor="let teacher of this.teachers" value="{{teacher.id}}">{{teacher.firstName}} {{teacher.lastName}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="Message">Message</label>
+                <textarea class="form-control" style="resize: none;" [(ngModel)]="this.messageContent" id="Message" rows="3"></textarea>
+            </div>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <em *ngIf="this.invalidTeacher" style="color: red;">Selected teacher is not valid.</em>
+            <br *ngIf="this.invalidTeacher && this.invalidMessage">
+            <em *ngIf="this.invalidMessage" style="color: red;">Message must have at least 5 characters.</em>
+        </div>
+        <div class="col-3"></div>
+    </div>
+    <div class="row">
+        <div class="col-3"></div>
+        <div class="col-6">
+            <button type="button" class="btn btn-primary" (click)="this.sendMessage()">Send</button>
+        </div>
+        <div class="col-3"></div>
+    </div>
+</div>

@@ -32,7 +32,7 @@ namespace Catalog_Online.Controllers
                 TeacherId = message.TeacherId,
                 SecretaryId = message.SecretaryId,
                 Content = message.Content,
-                MessageNumber = message.MessageNumber
+                MessageNumber = _messageService.GetLatestMessageNumber(message.TeacherId, message.SecretaryId) + 1
             };
 
             var result = _messageService.SendMessage(newMessage);

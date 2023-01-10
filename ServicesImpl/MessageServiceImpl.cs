@@ -16,6 +16,15 @@ namespace Catalog_Online.ServicesImpl
             _context = context;
         }
 
+        public int GetLatestMessageNumber(int teacherId, int secretaryId)
+        {
+            var teachersMessages = _context.Messages.Where(m => m.TeacherId == teacherId && m.SecretaryId == secretaryId).ToList();
+            
+            return teachersMessages.Count == 0 
+                ? 0 
+                : teachersMessages.Count;
+        }
+
         public List<Message> GetMessagesByTeacherId(int teacherId)
         {
             return _context.Messages.Where(ms => ms.TeacherId == teacherId).ToList();

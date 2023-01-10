@@ -8,6 +8,7 @@ namespace Catalog_Online.Services
     {
         public Message SendMessage(Message dto);
 
+        public int GetLatestMessageNumber(int teacherId, int secretaryId);
         public List<Message> GetMessagesByTeacherId(int teacherId);
     }
 }

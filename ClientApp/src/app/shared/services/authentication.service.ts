@@ -64,8 +64,8 @@ export class AuthenticationService {
     return role === RoleType.student;
   }
 
-  getCurrentUser():Observable<CurrentUser[]>{
-    return this.http.get<CurrentUser[]>('https://localhost:44350' + '/api/user/GetCurrentUser');
+  getCurrentUser():Observable<CurrentUser>{
+    return this.http.get<CurrentUser>('https://localhost:44350' + '/api/user/GetCurrentUser');
   }
 
   public loginUser = (route: string, body: LoginInfoDto) => {
