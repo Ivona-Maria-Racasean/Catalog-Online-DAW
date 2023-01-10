@@ -1,0 +1,129 @@
+<div class="page-header">
+  <div class="container">
+    <h1>Users</h1>
+  </div>
+</div>
+
+<div class="container">
+  <div class="mt-1 mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" class="">
+      <!-- First Name Column -->
+      <ng-container matColumnDef="firstName">
+        <th mat-header-cell *matHeaderCellDef> First Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.user.firstName}} </td>
+      </ng-container>
+
+      <!-- Last Name Column -->
+      <ng-container matColumnDef="lastName">
+        <th mat-header-cell *matHeaderCellDef> Last Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.user.lastName}} </td>
+      </ng-container>
+
+
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element.user.email}} </td>
+      </ng-container>
+
+      <!-- Address Column -->
+      <ng-container matColumnDef="address">
+        <th mat-header-cell *matHeaderCellDef> Address </th>
+        <td mat-cell *matCellDef="let element"> {{element.user.address}} </td>
+      </ng-container>
+
+       <!-- Phone Number Column -->
+       <ng-container matColumnDef="phoneNumber">
+        <th mat-header-cell *matHeaderCellDef> Phone Number </th>
+        <td mat-cell *matCellDef="let element"> {{element.user.phoneNumber}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page" z->
+    </mat-paginator>
+  </div>
+  <br><br><br>
+  <div class="card">
+    <div class="card-body">
+      <h1 class="card-title">Add Users</h1>
+      <form [formGroup]="registerForm" autocomplete="off" novalidate (ngSubmit)="registerUser(registerForm.value)">
+
+
+        <div class="form-group row">
+          <label for="firstName" class="col-form-label col-sm-2">First name:</label>
+          <div class="col-md-5">
+            <input type="text" id="firstName" formControlName="firstName" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('firstName') && hasError('firstName', 'required')">First name is required</em>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="lastName" class="col-form-label col-sm-2">Last name:</label>
+          <div class="col-md-5">
+            <input type="text" id="lastName" formControlName="lastName" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('lastName') && hasError('lastName', 'required')">Last name is required</em>
+          </div>
+        </div>
+
+
+        <div class="form-group row">
+          <label for="email" class="col-form-label col-sm-2">Email:</label>
+          <div class="col-md-5">
+            <input type="text" id="email" formControlName="email" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('email') && hasError('email', 'required')">Email is required</em>
+            <em *ngIf="validateControl('email') && hasError('email', 'email')">Email is invalid</em>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="password" class="col-form-label col-sm-2">Password:</label>
+          <div class="col-md-5">
+            <input type="password" id="password" formControlName="password" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('password') && hasError('password', 'required')">Password is required</em>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="address" class="col-form-label col-sm-2">Adress:</label>
+          <div class="col-md-5">
+            <input type="text" id="address" formControlName="address" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('address') && hasError('address', 'required')">Address is required</em>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="phoneNumber" class="col-form-label col-sm-2">Phone number:</label>
+          <div class="col-md-5">
+            <input type="text" id="phoneNumber" formControlName="phoneNumber" class="form-control" />
+          </div>
+          <div class="col-md-5">
+            <em *ngIf="validateControl('phoneNumber') && hasError('phoneNumber', 'required')">Phone nuber is required</em>
+          </div>
+        </div>
+
+        <br>
+
+        <div class="form-group row">
+          <div class="col-md-1">
+            <button type="submit" class="btn btn-info" [disabled]="!registerForm.valid">Add users</button>
+          </div>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>

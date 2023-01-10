@@ -27,7 +27,7 @@ export class StudentsComponent implements OnInit {
       .subscribe(
         (successResponse) => {
           this.students = successResponse;
-          console.log(this.students)
+          //console.log(this.students)
           this.dataSource = new MatTableDataSource<StudentData>(this.students);
 
           if (this.matPaginator) {

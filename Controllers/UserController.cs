@@ -23,7 +23,7 @@ namespace Catalog_Online.Controllers
         } 
 
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public ActionResult<User> Register([FromBody] RegisterDto registerDto)
         {
             User user = new()

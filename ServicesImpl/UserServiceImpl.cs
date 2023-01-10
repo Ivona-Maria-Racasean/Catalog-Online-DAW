@@ -60,6 +60,7 @@ namespace Catalog_Online.Managers
             for (int i = 0; i < users.Count; i++)
             {
                 var StudentData = _context.StudentsData.FirstOrDefault(sd => sd.UserId == users[i].Id);
+
                 StudentUserListing listing = new()
                 {
                     User = users[i],
