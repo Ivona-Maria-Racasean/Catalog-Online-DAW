@@ -44,6 +44,7 @@ namespace Catalog_Online
                 });
             });
 
+            // Inregistram serviciile utilizate pentru a fi injectate in controllere/serviciile care le utilizeaza
             services.AddScoped<IUserService, UserServiceImpl>();
             services.AddScoped<IStudentCertificateService, StudentCertificateServiceImpl>();
             services.AddScoped<IStudentDataService, StudentDataServiceImpl>();
@@ -52,14 +53,17 @@ namespace Catalog_Online
             services.AddScoped<JwtHandler>();
 
 
-            // Enable JWT settings
+            // Obtinem sectiune JwtSettings din appsettings.json
             var jwtSettings = Configuration.GetSection("JwtSettings");
+
+            // Configuram aplicatie sa foloseasca schemele de autentificare default din JwtBearerDefault.
             services.AddAuthentication(opt =>
             {
                 opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(options =>
             {
+                // Configuram parametrii de validare ai tokenului
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,

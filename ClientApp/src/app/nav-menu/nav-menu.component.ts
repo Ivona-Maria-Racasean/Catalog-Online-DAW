@@ -35,10 +35,6 @@ export class NavMenuComponent implements OnInit {
           this.currentUser = this.currentUser
         }, err => console.error(err))
 
-      }
-    })
-  }
-//
   collapse() {
     this.isExpanded = false;
   }

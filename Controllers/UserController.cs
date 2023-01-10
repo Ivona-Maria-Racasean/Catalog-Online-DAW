@@ -57,6 +57,12 @@ namespace Catalog_Online.Controllers
 
         }
 
+        [HttpGet("teachers")]
+        public ActionResult<List<User>> GetTeachers()
+        {
+            return _userService.GetTeachers();
+        }
+
         [HttpGet("StudentData")]
         public ActionResult<List<StudentUserListing>> GetAllStudentUsersData()
         {
@@ -86,8 +92,7 @@ namespace Catalog_Online.Controllers
             
             var user = _userService.GetUserByEmail(email);
 
-            // Vorbeste cu Flori ce entitati are nevoie si modifica
-            // returnul
+            // Sa vorbesc cu Flori de ce fielduri are nevoie 
             return Ok(new
             {
                 id = user.Id,

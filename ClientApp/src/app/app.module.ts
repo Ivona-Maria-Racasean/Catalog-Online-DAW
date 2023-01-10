@@ -11,6 +11,9 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StudentsComponent } from './students/students.component';
+import { MarksComponent } from './marks/marks.component';
+import { TeachersComponent } from './teachers/teachers.component';
+
 
 // Material Data tables
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -46,7 +49,9 @@ export function tokenGetter() {
     LoginComponent,
     ForbiddenComponent,
     PrivacyComponent,
-    UsersComponent,
+    TeachersComponent,
+    MarksComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -64,10 +69,9 @@ export function tokenGetter() {
       { path: 'login', component: LoginComponent},
       { path: 'register', component: RegisterComponent },
       { path: 'students', component: StudentsComponent },
-      { path: 'privacy', component: PrivacyComponent },
-      { path: 'forbidden', component: ForbiddenComponent },
+      { path: 'teachers', component: TeachersComponent },
+      { path: 'marks', component: MarksComponent },
       { path: 'users', component: UsersComponent },
-
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({
