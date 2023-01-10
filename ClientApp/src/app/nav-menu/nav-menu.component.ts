@@ -34,14 +34,15 @@ export class NavMenuComponent implements OnInit {
         this.authService.getCurrentUser().subscribe( currentUser => {
           this.currentUser = this.currentUser
         }, err => console.error(err))
-
-  collapse() {
+      }})
+    }
+    collapse() {
     this.isExpanded = false;
-  }
+    }
 
-  toggle() {
+    toggle() {
     this.isExpanded = !this.isExpanded;
-  }
+  } 
 
   public logout = () => {
     this.authService.logout();
