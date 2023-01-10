@@ -11,6 +11,9 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StudentsComponent } from './students/students.component';
+import { MarksComponent } from './marks/marks.component';
+import { TeachersComponent } from './teachers/teachers.component';
+
 
 // Material Data tables
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -18,7 +21,6 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TeachersComponent } from './teachers/teachers.component';
 
 // auth
 import { JwtModule } from "@auth0/angular-jwt";
@@ -44,7 +46,8 @@ export function tokenGetter() {
     LoginComponent,
     ForbiddenComponent,
     PrivacyComponent,
-    TeachersComponent
+    TeachersComponent,
+    MarksComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -59,10 +62,11 @@ export function tokenGetter() {
       { path: '', component: HomeComponent, pathMatch: 'full'},
       { path: 'counter', component: CounterComponent, canActivate: [AuthGuard]  },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'login', component: LoginComponent},
+      { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'students', component: StudentsComponent },
       { path: 'teachers', component: TeachersComponent },
+      { path: 'marks', component: MarksComponent }
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({
