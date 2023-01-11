@@ -28,6 +28,7 @@ import { AuthGuard } from './shared/guards/auth.guard';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { UsersComponent } from './users/users.component';
+import { MessageFormComponent } from './message-form/message-form.component';
 
 
 
@@ -51,7 +52,8 @@ export function tokenGetter() {
     PrivacyComponent,
     TeachersComponent,
     MarksComponent,
-    UsersComponent
+    UsersComponent,
+    MessageFormComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -66,12 +68,13 @@ export function tokenGetter() {
       { path: '', component: HomeComponent, pathMatch: 'full'},
       { path: 'counter', component: CounterComponent, canActivate: [AuthGuard]  },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'login', component: LoginComponent},
+      { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
       { path: 'students', component: StudentsComponent },
       { path: 'teachers', component: TeachersComponent },
       { path: 'marks', component: MarksComponent },
       { path: 'users', component: UsersComponent },
+      {path: 'message-form', component: MessageFormComponent}
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({

@@ -23,6 +23,9 @@ export class NavMenuComponent implements OnInit {
     // functie local storage verifica daca este tocken si daca este valid dupa punem isUserAuthenticated == true
     if(this.tokeUser!= null && !this.jwtHelper.isTokenExpired(this.tokeUser)){
       this.isUserAuthenticated = true;
+      this.authService.getCurrentUser().subscribe( currentUser => {
+        this.currentUser = currentUser
+      }, err => console.error(err))
     }
     this.authService.authChanged
     .subscribe(res => {
@@ -32,7 +35,7 @@ export class NavMenuComponent implements OnInit {
       if(res == true){
         // call endpoint grt current user and save current utis
         this.authService.getCurrentUser().subscribe( currentUser => {
-          this.currentUser = this.currentUser
+          this.currentUser = currentUser
         }, err => console.error(err))
       }})
     }

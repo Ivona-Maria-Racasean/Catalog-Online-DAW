@@ -1,4 +1,5 @@
-﻿using Catalog_Online.Models.Entity;
+﻿using Catalog_Online.Models.Entities;
+using Catalog_Online.Models.Entity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Catalog_Online.Helper
@@ -16,6 +17,7 @@ namespace Catalog_Online.Helper
         public DbSet<StudentCertificate> StudentCertificates { get; set; }  
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<Mark> Marks { get; set; }  
+        public DbSet<Message> Messages { get; set; }
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -47,6 +49,19 @@ namespace Catalog_Online.Helper
                .WithMany()
                .HasForeignKey(m => m.UserId)
                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Message>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(ms => ms.TeacherId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Message>()
+                .HasOne<User>()
+                .WithMany()
+                .HasForeignKey(ms => ms.SecretaryId)
+                .OnDelete(DeleteBehavior.NoAction);
+
         }
     }
 }

@@ -31,6 +31,9 @@
           <li *ngIf="this.isUserAuthenticated  " class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/users']">Users</a>
           </li>
+          <li *ngIf="this.isUserAuthenticated && this.currentUser.role == 'Secretary'" class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/message-form']">Message Form</a>
+          </li>
           <li *ngIf="this.isUserAuthenticated" class="nav-item">
             <a class="nav-link" [routerLink]="['/privacy']" routerLinkActive="active"
               [routerLinkActiveOptions]="{exact: true}"> Privacy </a>

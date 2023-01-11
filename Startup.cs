@@ -50,6 +50,7 @@ namespace Catalog_Online
             services.AddScoped<IStudentDataService, StudentDataServiceImpl>();
             services.AddScoped<ISubjectService, SubjectServiceImpl>();
             services.AddScoped<IMarkService, MarkServiceImpl>();
+            services.AddScoped<IMessageService, MessageServiceImpl>();
             services.AddScoped<JwtHandler>();
 
 

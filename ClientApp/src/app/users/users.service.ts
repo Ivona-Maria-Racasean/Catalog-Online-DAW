@@ -12,6 +12,10 @@ export class UsersService {
 
   constructor(private httpClient: HttpClient) { }
 
+  GetTeachers(): Observable<User[]>{
+    return this.httpClient.get<User[]>(this.baseAPiUrl + '/api/user/teachers')
+  }
+
   GetAllUserData(): Observable<User[]>{
     return this.httpClient.get<User[]>(this.baseAPiUrl + '/api/user/UserRol');
   }
