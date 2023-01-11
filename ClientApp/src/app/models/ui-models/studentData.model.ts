@@ -6,5 +6,6 @@ export interface StudentData {
   yearOfStudying: string,
   registrationNumber: string,
   class: string,
-  user: User
+  user: User,
+  subjects: string[]
 }

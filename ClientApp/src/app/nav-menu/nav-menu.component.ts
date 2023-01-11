@@ -31,7 +31,6 @@ export class NavMenuComponent implements OnInit {
     .subscribe(res => {
       this.isUserAuthenticated = res;
 
-
       if(res == true){
         // call endpoint grt current user and save current utis
         this.authService.getCurrentUser().subscribe( currentUser => {

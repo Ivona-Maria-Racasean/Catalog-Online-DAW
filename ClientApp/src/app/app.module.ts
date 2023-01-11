@@ -10,7 +10,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { StudentsComponent } from './students/students.component';
+import { CataloguesComponent} from './students/catalogues.component';
 import { MarksComponent } from './marks/marks.component';
 import { TeachersComponent } from './teachers/teachers.component';
 
@@ -46,7 +46,7 @@ export function tokenGetter() {
     LoginComponent,
     FetchDataComponent,
     RegisterComponent,
-    StudentsComponent,
+    CataloguesComponent,
     LoginComponent,
     ForbiddenComponent,
     PrivacyComponent,
@@ -70,7 +70,7 @@ export function tokenGetter() {
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'students', component: StudentsComponent },
+      { path: 'catalogues', component: CataloguesComponent },
       { path: 'teachers', component: TeachersComponent },
       { path: 'marks', component: MarksComponent },
       { path: 'users', component: UsersComponent },
