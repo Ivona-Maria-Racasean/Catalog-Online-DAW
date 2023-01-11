@@ -39,7 +39,22 @@ namespace Catalog_Online.Managers
             return newUser.Entity;
         }
 
-       
+        public User UpdateUserData(User newUserData, int id)
+        {
+            var originalUserData = _context.Users.FirstOrDefault(ud => ud.Id == id);
+            if (originalUserData == null) return null;
+
+            originalUserData.Id = newUserData.Id;
+            originalUserData.FirstName = newUserData.FirstName;
+            originalUserData.LastName = newUserData.LastName;
+            originalUserData.Email = newUserData.Email;
+            originalUserData.Address = newUserData.Address;
+            originalUserData.PhoneNumber = newUserData.PhoneNumber;
+
+            _context.SaveChanges();
+            return originalUserData;
+        }
+
 
 
         public bool CheckPassword(User user, string password)

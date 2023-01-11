@@ -126,5 +126,23 @@ namespace Catalog_Online.Controllers
                 role = _userService.GetUserRole(user).Name
             });
         }
+
+        [HttpPatch("{id:int}")]
+        public ActionResult<User> UpdateUserData([FromBody] UpdateUserDto dto, int id)
+        {
+            User user = new()
+            {
+                Id = id,
+                RoleId = dto.RolId,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                Address= dto.Address,
+                PhoneNumber= dto.PhoneNumber,   
+            };
+
+            var result = _userService.UpdateUserData(user, id);
+            return Ok(result);
+        }
     }
 }
