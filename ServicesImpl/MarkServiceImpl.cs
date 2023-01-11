@@ -46,5 +46,18 @@ namespace Catalog_Online.ServicesImpl
             }
             return markWithSubjectDtos;
         }
+
+        public List<Mark> GetMarksBySubjectId(int id)
+        {
+            return _context.Marks.Where(m => m.SubjectId == id).ToList();
+        }
+
+        public List<Subject> GetSubjectsByTeacherName(string firstName, string lastName)
+        {
+            var teacherName = firstName + " " + lastName;
+            //var teacherName2 = lastName + " " + firstName;
+            List<Subject> subjects = _context.Subjects.Where(s => s.TeacherName == teacherName).ToList();
+            return subjects;
+        }
     }
 }
