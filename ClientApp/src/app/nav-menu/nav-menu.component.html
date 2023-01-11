@@ -1,4 +1,4 @@
-<header>
+<header *ngIf="(this.isUserAuthenticated && this.currentUser) || !this.isUserAuthenticated">
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">Catalog Online</a>
@@ -25,8 +25,8 @@
           <li *ngIf="this.isUserAuthenticated" class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/fetch-data']">Fetch data</a>
           </li>
-          <li *ngIf="this.isUserAuthenticated " class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/students']">Students</a>
+          <li *ngIf="this.isUserAuthenticated && this.currentUser.role == 'Secretary'" class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/catalogues']">Catalogues</a>
           </li>
           <li *ngIf="this.isUserAuthenticated  " class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/users']">Users</a>

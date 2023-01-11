@@ -1,24 +1,34 @@
 <div class="page-header">
   <div class="container">
-    <h1>Students</h1>
+    <h1>Catalogues</h1>
   </div>
 </div>
 
 <div class="container">
-  <div class="row end-xs mt-1">
-    <!-- <div class="col-xs-12">
-      <input type="text" class="searh-input" placeholder="Search students"
-      [(ngModel)]="filterString"
-      (keyup)="filterStudents()"
-      >
-    </div> -->
+
+  <div class="row">
+    <div class="col-3">
+      <div class="form-group">
+        <select (change)="classChange()" [(ngModel)]="selectedClass" class="form-control" id="class" for="class">
+            <option *ngFor="let class of this.classes">{{class}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-6"></div>
+
+    <div class="col-3">
+      <div class="form-group text-right">
+        <select (change)="subjectChange()" [(ngModel)]="selectedSubject" class="form-control" id="subject" for="subject">
+            <option *ngFor="let subject of this.subjects">{{subject}}</option>
+        </select>
+      </div>
+    </div>
+
   </div>
+
   <div class="mt-1 mat-elevation-z8">
-    <table mat-table matSort [dataSource]="dataSource" class="">
-
-      <!--- Note that these columns can be defined in any order.
-            The actual rendered columns are set as a property on the row definition" -->
-
+    <table mat-table matSort [dataSource]="dataSource" class="demo-table">
     <!-- Year Of Studying Column-->
     <ng-container matColumnDef="yearOfStudying">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Year Of Studying </th>
@@ -69,4 +79,8 @@
     <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page" z->
     </mat-paginator>
   </div>
+  <br>
+  <em *ngIf="this.displayUnselectedDownloadError" style="color: red;">Please select a class or a subject</em>
+  <br *ngIf="this.displayUnselectedDownloadError">
+  <input type="button" value="Download PDF" class="btn btn-success" (click)="SavePDF()">
 </div>

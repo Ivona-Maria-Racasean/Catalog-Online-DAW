@@ -93,6 +93,11 @@ namespace Catalog_Online.Managers
                 if (role.Name == "Student")
                 {
                     var StudentData = _context.StudentsData.FirstOrDefault(sd => sd.UserId == users[i].Id);
+
+                    var studentMarks = _context.Marks.Where(m => m.UserId== users[i].Id).ToList();
+                    var subjectsIds = studentMarks.Select(m => m.SubjectId).ToList();
+                    var subjectNames = _context.Subjects.Where(s => subjectsIds.Contains(s.Id)).Select(s => s.Name).ToList();
+
                     StudentUserListing listing = new()
                     {
                         User = users[i],
@@ -100,7 +105,8 @@ namespace Catalog_Online.Managers
                         UserId = users[i].Id,
                         YearOfStudying = StudentData.YearOfStudying,
                         RegistrationNumber = StudentData.RegistrationNumber,
-                        Class = StudentData.Class
+                        Class = StudentData.Class,
+                        Subjects = subjectNames
                     };
 
                     studentUsers.Add(listing);
