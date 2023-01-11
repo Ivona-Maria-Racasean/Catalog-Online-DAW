@@ -2,7 +2,7 @@ import { Rol } from "./rol.model";
 
 export interface User {
   id: string,
-  relo: string,
+  roleId: string,
   email: string,
   password: string,
   firstName: string,
