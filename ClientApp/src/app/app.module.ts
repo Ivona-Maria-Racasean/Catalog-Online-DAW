@@ -11,6 +11,8 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StudentsComponent } from './students/students.component';
+import { TeachersComponent } from './teachers/teachers.component';
+import { GenerateStudentCertificateComponent } from './generate-student-certificate/generate-student-certificate.component';
 
 // Material Data tables
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -18,13 +20,13 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TeachersComponent } from './teachers/teachers.component';
 
 // auth
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './shared/guards/auth.guard';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { PrivacyComponent } from './privacy/privacy.component';
+
 
 
 export function tokenGetter() {
@@ -44,7 +46,8 @@ export function tokenGetter() {
     LoginComponent,
     ForbiddenComponent,
     PrivacyComponent,
-    TeachersComponent
+    TeachersComponent,
+    GenerateStudentCertificateComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

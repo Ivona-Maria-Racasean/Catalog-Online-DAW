@@ -25,7 +25,7 @@ namespace Catalog_Online.Controllers
             return Ok(result);
         }
 
-        [Authorize(Roles = "Student")]
+        //[Authorize(Roles = "Student")]
         [HttpPost]
         public ActionResult<StudentCertificate> CreateStudentCertificate([FromBody] StudentCertificateDto dto) 
         {
