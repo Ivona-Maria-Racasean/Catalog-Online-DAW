@@ -43,6 +43,29 @@ namespace Catalog_Online.Controllers
             return Ok(result);
         }
 
+        [HttpPost("teacher")]
+        //[Authorize(Roles = "Admin")]
+        public ActionResult<User> RegisterTeacher([FromBody] InsertTeacherDto insertTeacher)
+        {
+
+            User user = new()
+            {
+                FirstName = insertTeacher.FirstNameTeacher,
+                LastName = insertTeacher.LastNameTeacher,
+                Email = insertTeacher.EmailTeacher,
+                PhoneNumber = insertTeacher.PhoneNumberTeacher,
+                Password = insertTeacher.PasswordTeacher,
+                Address = insertTeacher.AddressTeacher,
+                RoleId = 3,
+            };
+
+            var result = _userService.RegisterUser(user);
+
+            return Ok(result);
+        }
+
+
+
         [HttpGet("{id:int}")]
         public ActionResult<User> GetUserById(int id) 
         {

@@ -39,6 +39,9 @@ namespace Catalog_Online.Managers
             return newUser.Entity;
         }
 
+       
+
+
         public bool CheckPassword(User user, string password)
         {
             // Ar trebui sa adaugam un fel de cryptare ca sa nu salvam parolele in plain-text (pt mai tarziu)

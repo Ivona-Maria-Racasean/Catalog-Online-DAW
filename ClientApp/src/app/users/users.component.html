@@ -56,7 +56,7 @@
 
 <div class="card">
   <div class="card-body">
-    <h1 class="card-title">Add Users</h1>
+    <h1 class="card-title">Add Students</h1>
 
     <div *ngIf="showError" class="alert alert-danger" role="alert">
       <div *ngFor="let err of errorMessage">
@@ -65,7 +65,7 @@
       </div>
     </div>
 
-    <form [formGroup]="userForm" autocomplete="off" novalidate (ngSubmit)="Register(userFrom.value)">
+    <form [formGroup]="userForm" autocomplete="off" novalidate (ngSubmit)="Register(userForm.value)">
 
       <div class="form-group row">
         <label for="firstName" class="col-form-label col-sm-2">First Name:</label>
@@ -125,10 +125,91 @@
 
       <div class="form-group row">
         <div class="col-md-1">
-          <button type="submit" class="btn btn-info" [disabled]="!userFrom.valid">Add users</button>
+          <button type="submit" class="btn btn-info">Add Students</button>
         </div>
       </div>
 
     </form>
   </div>
 </div>
+
+<br><br>
+<div class="card">
+  <div class="card-body">
+    <h1 class="card-title">Add Teacher</h1>
+
+    <div *ngIf="showError" class="alert alert-danger" role="alert">
+      <div *ngFor="let err of errorMessage">
+        <span>{{err}}</span>
+        <br />
+      </div>
+    </div>
+
+    <form [formGroup]="userFromTeacher" autocomplete="off" novalidate (ngSubmit)="RegisterTeacher(userFromTeacher.value)">
+
+      <div class="form-group row">
+        <label for="firstNameTeacher" class="col-form-label col-sm-2">First Name:</label>
+        <div class="col-md-5">
+          <input type="text" id="firstNameTeacher" formControlName="firstNameTeacher" class="form-control" />
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label for="lastNameTeacher" class="col-form-label col-sm-2">Last Name:</label>
+        <div class="col-md-5">
+          <input type="text" id="lastNameTeacher" formControlName="lastNameTeacher" class="form-control" />
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label for="emailTeacher" class="col-form-label col-sm-2">Email:</label>
+        <div class="col-md-5">
+          <input type="email" id="emailTeacher" formControlName="emailTeacher" class="form-control" />
+        </div>
+        <div class="col-md-5">
+          <em *ngIf="validateControlTeacher('emailTeacher') && hasErrorTeacher('emailTeacher', 'email')">Please provide a valid email</em>
+          <em *ngIf="validateControlTeacher('emailTeacher') && hasErrorTeacher('emailTeacher', 'required')">Email is required</em>
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label for="addressTeacher" class="col-form-label col-sm-2">Address:</label>
+        <div class="col-md-5">
+          <input type="text" id="addressTeacher" formControlName="addressTeacher" class="form-control" />
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label for="phoneNumberTeacher" class="col-form-label col-sm-2">Phone number:</label>
+        <div class="col-md-5">
+          <input type="tel" id="phoneNumberTeacher" formControlName="phoneNumberTeacher" class="form-control" />
+        </div>
+      </div>
+
+
+      <div class="form-group row">
+        <label for="passwordTeacher" class="col-form-label col-sm-2">Password:</label>
+        <div class="col-md-5">
+          <input type="password" id="passwordTeacher" formControlName="passwordTeacher" class="form-control" />
+        </div>
+        <div class="col-md-5">
+          <em *ngIf="validateControlTeacher('passwordTeacher') && hasErrorTeacher('passwordTeacher', 'required')">Password is required</em>
+        </div>
+      </div>
+
+      <br>
+
+      <div class="form-group row">
+        <div class="col-md-1">
+          <button type="submit" class="btn btn-info">Add Teacher</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+

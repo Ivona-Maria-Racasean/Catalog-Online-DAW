@@ -1,5 +1,6 @@
 ﻿using Catalog_Online.Models.Dtos;
 using Catalog_Online.Models.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 
 namespace Catalog_Online.Services
@@ -8,6 +9,8 @@ namespace Catalog_Online.Services
     {
         public User RegisterUser(User user);
 
+
+        
         public User GetUserById(int id);
 
         public List<User> GetAllUsers();
