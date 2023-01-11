@@ -20,12 +20,13 @@ namespace Catalog_Online.Controllers
         public UserController(IUserService userService)
         {
             _userService = userService;
-        } 
+        }
 
         [HttpPost]
         //[Authorize(Roles = "Admin")]
         public ActionResult<User> Register([FromBody] RegisterDto registerDto)
         {
+          
             User user = new()
             {
                 FirstName = registerDto.FirstName,
@@ -34,7 +35,7 @@ namespace Catalog_Online.Controllers
                 PhoneNumber = registerDto.PhoneNumber,
                 Password = registerDto.Password,
                 Address = registerDto.Address,
-                RoleId = 1
+                RoleId = 4,
             };
 
             var result = _userService.RegisterUser(user);
