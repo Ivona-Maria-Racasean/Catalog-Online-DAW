@@ -16,33 +16,18 @@
           <li class="nav-item" *ngIf="!this.isUserAuthenticated" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
           </li>
-          <!-- <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/register']">Register</a>
-          </li> -->
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']">Counter</a>
-          </li>
-          <li *ngIf="this.isUserAuthenticated" class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']">Fetch data</a>
-          </li>
           <li *ngIf="this.isUserAuthenticated && this.currentUser.role == 'Secretary'" class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/catalogues']">Catalogues</a>
           </li>
-          <li *ngIf="this.isUserAuthenticated  " class="nav-item" [routerLinkActive]="['link-active']">
+          <li *ngIf="this.isUserAuthenticated && this.currentUser.role == 'Admin' " class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/users']">Users</a>
           </li>
           <li *ngIf="this.isUserAuthenticated && this.currentUser.role == 'Secretary'" class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/message-form']">Message Form</a>
           </li>
-          <li *ngIf="this.isUserAuthenticated" class="nav-item">
-            <a class="nav-link" [routerLink]="['/privacy']" routerLinkActive="active"
-              [routerLinkActiveOptions]="{exact: true}"> Privacy </a>
+          <li *ngIf="this.isUserAuthenticated && this.currentUser.role == 'Teacher'" class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/messages']">My messages</a>
           </li>
-
-          <!-- <li *ngIf="this.isUserAuthenticated" class="nav-item">
-            <button class="btn btn-link" style="color: #ffffff80;" (click)="logout()">Logout</button>
-          </li> -->
-
         </ul>
         <ul *ngIf="this.isUserAuthenticated" class="navbar-nav mr-auto mt-2 mt-lg-0">
           <li class="nav-item">

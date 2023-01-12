@@ -29,6 +29,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { UsersComponent } from './users/users.component';
 import { MessageFormComponent } from './message-form/message-form.component';
+import { MessageDisplayComponent } from './message-display/message-display.component';
 
 
 
@@ -53,7 +54,8 @@ export function tokenGetter() {
     TeachersComponent,
     MarksComponent,
     UsersComponent,
-    MessageFormComponent
+    MessageFormComponent,
+    MessageDisplayComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -74,7 +76,8 @@ export function tokenGetter() {
       { path: 'teachers', component: TeachersComponent },
       { path: 'marks', component: MarksComponent },
       { path: 'users', component: UsersComponent },
-      {path: 'message-form', component: MessageFormComponent}
+      {path: 'message-form', component: MessageFormComponent},
+      {path: 'messages', component: MessageDisplayComponent}
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({

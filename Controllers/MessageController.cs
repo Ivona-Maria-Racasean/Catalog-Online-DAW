@@ -11,17 +11,40 @@ namespace Catalog_Online.Controllers
     public class MessageController : ControllerBase
     {
         IMessageService _messageService;
+        IUserService _userService;
 
-        public MessageController(IMessageService messageService)
+        public MessageController(IMessageService messageService, IUserService userService)  
         {
             _messageService = messageService;
+            _userService = userService;
         }
 
-        [HttpGet("int:id")]
-        public ActionResult<List<Message>> GetMessagesByTeacherId(int id)
+        [HttpGet]
+        public ActionResult<List<TeacherMessagesDto>> GetMessagesByTeacherId([FromQuery(Name = "teacherId")] int id)
         {
             var messageList = _messageService.GetMessagesByTeacherId(id);
-            return messageList ;
+            var convertedMessageList = new List<TeacherMessagesDto>();
+
+            foreach (var message in messageList)
+            {
+                var msg = new TeacherMessagesDto();
+                msg.Id = message.Id;
+                msg.MessageNumber = message.MessageNumber;
+                msg.Content = message.Content;
+
+                var sender = new TeacherMessagesDto.Secretary();
+
+                var secretaryData = _userService.GetUserById(message.SecretaryId);
+                sender.Id = secretaryData.Id;
+                sender.Name = secretaryData.FirstName + ' ' + secretaryData.LastName;
+               
+                msg.Sender = sender;
+
+                convertedMessageList.Add(msg);
+
+            }
+
+            return convertedMessageList;
         }
 
         [HttpPost]
@@ -37,7 +60,6 @@ namespace Catalog_Online.Controllers
 
             var result = _messageService.SendMessage(newMessage);
             return Ok(result);
-
         }
     }
 }

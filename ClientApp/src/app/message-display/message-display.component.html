@@ -1,0 +1,48 @@
+<div class="container" *ngIf="this.mappedMessages">
+    <div class="row">
+        <div class="col"><h2>My messages</h2></div>
+    </div>
+    <br>
+</div>
+
+<div class="mt-1 mat-elevation-z8">
+    <table mat-table matSort [dataSource]="dataSource" class="demo-table">
+        <!-- Secretary Column-->
+        <ng-container matColumnDef="secretary">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Secretary </th>
+          <td mat-cell *matCellDef="let element"> {{element}} </td>
+        </ng-container>
+    
+        <!-- Number of messages Column-->
+        <ng-container matColumnDef="noMessages">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Number of messages </th>
+          <td mat-cell *matCellDef="let element"> {{this.mappedMessages.get(element).length}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+            <td mat-cell *matCellDef="let element" class="actionButton" (click)="showSecretaryMessage(element)"> Messages </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    
+    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page" z->
+    </mat-paginator>
+</div>
+
+<br>
+
+<div *ngIf="this.displayedSecretaryMessages != ''" class="container">
+    <div class="row">
+        <h3>Messages from {{this.displayedSecretaryMessages}}</h3>
+    </div>
+    <div class="row" *ngFor="let message of this.displayedMessages">
+        <div class="col">
+            <div class="alert alert-dark" role="alert">
+                {{message.content}}
+            </div>
+        </div>
+    </div>
+</div>

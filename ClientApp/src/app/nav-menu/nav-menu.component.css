@@ -6,6 +6,7 @@ a.navbar-brand {
 
 html {
   font-size: 14px;
+  color:olive
 }
 @media (min-width: 768px) {
   html {
