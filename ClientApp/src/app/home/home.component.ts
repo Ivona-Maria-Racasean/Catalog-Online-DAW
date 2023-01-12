@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CurrentUser } from 'app/models/ui-models/currentUser.model';
+import { NavMenuComponent } from 'app/nav-menu/nav-menu.component';
 
 @Component({
   selector: 'app-home',
@@ -6,4 +8,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.css'],
 })
 export class HomeComponent {
+
+
+  @Input() currentUser!: CurrentUser;
+  constructor(){}
 }

@@ -6,13 +6,13 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+
 import { LoginComponent } from './authentication/login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { CataloguesComponent} from './students/catalogues.component';
+import { CataloguesComponent } from './students/catalogues.component';
+import { StudentsComponent } from './students/students.component';
 import { MarksComponent } from './marks/marks.component';
 import { TeachersComponent } from './teachers/teachers.component';
+import { SubjectsComponent } from './subjects/subjects.component';
 
 
 // Material Data tables
@@ -25,13 +25,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // auth
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './shared/guards/auth.guard';
-import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { PrivacyComponent } from './privacy/privacy.component';
 import { UsersComponent } from './users/users.component';
 import { MessageFormComponent } from './message-form/message-form.component';
+import { MarksSubjectListComponent } from './marks-subject-list/marks-subject-list.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
 import { MessageDisplayComponent } from './message-display/message-display.component';
-
-
 
 
 export function tokenGetter() {
@@ -43,15 +41,14 @@ export function tokenGetter() {
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     LoginComponent,
     FetchDataComponent,
-    RegisterComponent,
-    CataloguesComponent,
+    StudentsComponent,
     LoginComponent,
-    ForbiddenComponent,
-    PrivacyComponent,
     TeachersComponent,
+    SubjectsComponent,
+    MarksSubjectListComponent
+    UpdateUserComponent,
     MarksComponent,
     UsersComponent,
     MessageFormComponent,
@@ -63,32 +60,32 @@ export function tokenGetter() {
     FormsModule,
     MatPaginatorModule,
     MatSortModule,
-    MatTableModule,
-    HttpClientModule,
+      MatTableModule,
+      HttpClientModule,
+    MessageFormComponent
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full'},
-      { path: 'counter', component: CounterComponent, canActivate: [AuthGuard]  },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'login', component: LoginComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'catalogues', component: CataloguesComponent },
+      { path: 'students', component: StudentsComponent },
       { path: 'teachers', component: TeachersComponent },
       { path: 'marks', component: MarksComponent },
       { path: 'users', component: UsersComponent },
-      {path: 'message-form', component: MessageFormComponent},
-      {path: 'messages', component: MessageDisplayComponent}
+      {path: 'message-form', component: MessageFormComponent}
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({
-      config: {
-        tokenGetter: tokenGetter,
+    BrowserAnimationsModule,
+        whitelistedDomains: ["localhost:44350"],
+        blacklistedRoutes: []
+      }
         whitelistedDomains: ["localhost:44350"],
         blacklistedRoutes: []
       }
     }),
   ],
-  providers: [],
+  providers: [NavMenuComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

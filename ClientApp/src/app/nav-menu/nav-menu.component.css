@@ -4,6 +4,11 @@ a.navbar-brand {
   word-break: break-all;
 }
 
+.navbar-nav{
+  display: flex;
+  justify-content: center;
+}
+
 html {
   font-size: 14px;
   color:olive

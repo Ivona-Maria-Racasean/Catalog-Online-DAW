@@ -37,6 +37,7 @@
 
   <ItemGroup>
     <Compile Remove="Models\Dtos\UserDto.cs" />
+    <Compile Remove="Services\IUpdateUser.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

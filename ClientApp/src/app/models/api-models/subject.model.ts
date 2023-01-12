@@ -6,5 +6,5 @@ export interface Subject {
   name: string,
   semester: string,
   yearOfTeaching: string,
-  teacher: Teacher,
+  teacherName: string,
 }

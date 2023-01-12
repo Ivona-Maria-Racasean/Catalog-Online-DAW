@@ -20,12 +20,13 @@ namespace Catalog_Online.Controllers
         public UserController(IUserService userService)
         {
             _userService = userService;
-        } 
+        }
 
         [HttpPost]
         //[Authorize(Roles = "Admin")]
         public ActionResult<User> Register([FromBody] RegisterDto registerDto)
         {
+          
             User user = new()
             {
                 FirstName = registerDto.FirstName,
@@ -34,7 +35,28 @@ namespace Catalog_Online.Controllers
                 PhoneNumber = registerDto.PhoneNumber,
                 Password = registerDto.Password,
                 Address = registerDto.Address,
-                RoleId = 1
+                RoleId = 4,
+            };
+
+            var result = _userService.RegisterUser(user);
+
+            return Ok(result);
+        }
+
+        [HttpPost("teacher")]
+        //[Authorize(Roles = "Admin")]
+        public ActionResult<User> RegisterTeacher([FromBody] InsertTeacherDto insertTeacher)
+        {
+
+            User user = new()
+            {
+                FirstName = insertTeacher.FirstNameTeacher,
+                LastName = insertTeacher.LastNameTeacher,
+                Email = insertTeacher.EmailTeacher,
+                PhoneNumber = insertTeacher.PhoneNumberTeacher,
+                Password = insertTeacher.PasswordTeacher,
+                Address = insertTeacher.AddressTeacher,
+                RoleId = 3,
             };
 
             var result = _userService.RegisterUser(user);
@@ -43,12 +65,38 @@ namespace Catalog_Online.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public ActionResult<User> GetUserById(int id) 
+        public ActionResult<User> GetUserById(int id)
         {
             var result = _userService.GetUserById(id);
 
             return Ok(result);
         }
+
+        [HttpPatch("Update/{id:int}")]
+        public ActionResult<User> UpdateUserData([FromBody] UpdateUserDto dto, int id)
+        {
+            User user = new()
+            {
+                Id = id,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                Address = dto.Address,
+                PhoneNumber = dto.PhoneNumber,
+            };
+
+            var result = _userService.UpdateUserData(user, id);
+            return Ok(result);
+        }
+
+        [HttpDelete("{id:int}")]
+        public ActionResult<User> DeleteUserData([FromBody] int id)
+        {
+ 
+            var result = _userService.DeleteUserData(id);
+            return Ok(result);
+        }
+
 
         [HttpGet]
         public ActionResult<List<User>> GetAllUsers()
@@ -102,5 +150,7 @@ namespace Catalog_Online.Controllers
                 role = _userService.GetUserRole(user).Name
             });
         }
+
+       
     }
 }
