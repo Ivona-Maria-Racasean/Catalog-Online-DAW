@@ -20,11 +20,12 @@ export class UsersService {
   }
 
   Register(body: UserForRegistrationDto){
-    return this.httpClient.post<RegistrationResponseDto>(this.baseAPiUrl + '/api/user', body);
+    return this.httpClient.post<RegistrationResponseDto>(this.baseAPiUrl + '/api/user/', body);
   }
 
   RegisterTeacher(body: UserTeacherForRegistrationDto){
     return this.httpClient.post<RegistrationTeacherResponseDto>(this.baseAPiUrl + '/api/user/teacher', body);
   }
+
 
 }

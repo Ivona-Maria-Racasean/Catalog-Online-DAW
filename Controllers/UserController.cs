@@ -64,15 +64,31 @@ namespace Catalog_Online.Controllers
             return Ok(result);
         }
 
-
-
         [HttpGet("{id:int}")]
-        public ActionResult<User> GetUserById(int id) 
+        public ActionResult<User> GetUserById(int id)
         {
             var result = _userService.GetUserById(id);
 
             return Ok(result);
         }
+
+        [HttpPatch("Update/{id:int}")]
+        public ActionResult<User> UpdateUserData([FromBody] UpdateUserDto dto, int id)
+        {
+            User user = new()
+            {
+                Id = id,
+                FirstName = dto.FirstName,
+                LastName = dto.LastName,
+                Email = dto.Email,
+                Address = dto.Address,
+                PhoneNumber = dto.PhoneNumber,
+            };
+
+            var result = _userService.UpdateUserData(user, id);
+            return Ok(result);
+        }
+
 
         [HttpGet]
         public ActionResult<List<User>> GetAllUsers()
@@ -127,22 +143,6 @@ namespace Catalog_Online.Controllers
             });
         }
 
-        [HttpPatch("{id:int}")]
-        public ActionResult<User> UpdateUserData([FromBody] UpdateUserDto dto, int id)
-        {
-            User user = new()
-            {
-                Id = id,
-                RoleId = dto.RolId,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                Email = dto.Email,
-                Address= dto.Address,
-                PhoneNumber= dto.PhoneNumber,   
-            };
-
-            var result = _userService.UpdateUserData(user, id);
-            return Ok(result);
-        }
+       
     }
 }

@@ -7,6 +7,7 @@ using System;
 using Catalog_Online.Models.Dtos;
 using System.Net.Sockets;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace Catalog_Online.Managers
 {
@@ -22,11 +23,6 @@ namespace Catalog_Online.Managers
             return _context.Users.ToList();
         }
 
-        public User GetUserById(int id)
-        {
-            return _context.Users.FirstOrDefault(u => u.Id == id);
-        }
-
         public User GetUserByEmail(string email)
         {
             return _context.Users.FirstOrDefault(u => u.Email == email);
@@ -39,23 +35,7 @@ namespace Catalog_Online.Managers
             return newUser.Entity;
         }
 
-        public User UpdateUserData(User newUserData, int id)
-        {
-            var originalUserData = _context.Users.FirstOrDefault(ud => ud.Id == id);
-            if (originalUserData == null) return null;
-
-            originalUserData.Id = newUserData.Id;
-            originalUserData.FirstName = newUserData.FirstName;
-            originalUserData.LastName = newUserData.LastName;
-            originalUserData.Email = newUserData.Email;
-            originalUserData.Address = newUserData.Address;
-            originalUserData.PhoneNumber = newUserData.PhoneNumber;
-
-            _context.SaveChanges();
-            return originalUserData;
-        }
-
-
+    
 
         public bool CheckPassword(User user, string password)
         {
@@ -143,5 +123,28 @@ namespace Catalog_Online.Managers
 
             return teachers;
         }
+
+        public User GetUserById(int id)
+        {
+            return _context.Users.FirstOrDefault(u => u.Id == id);
+        }
+
+        public User UpdateUserData(User newUserData, int id)
+        {
+            var originalUserData = _context.Users.FirstOrDefault(ud => ud.Id == id);
+            if (originalUserData == null) return null;
+
+            originalUserData.Id = newUserData.Id;
+            originalUserData.FirstName = newUserData.FirstName;
+            originalUserData.LastName = newUserData.LastName;
+            originalUserData.Email = newUserData.Email;
+            originalUserData.Address = newUserData.Address;
+            originalUserData.PhoneNumber = newUserData.PhoneNumber;
+
+            _context.SaveChanges();
+            return originalUserData;
+        }
+
+     
     }
 }

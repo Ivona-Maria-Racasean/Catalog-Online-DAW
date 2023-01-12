@@ -6,8 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { StudentsComponent } from './students/students.component';
@@ -25,9 +24,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // auth
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './shared/guards/auth.guard';
-import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { PrivacyComponent } from './privacy/privacy.component';
 import { UsersComponent } from './users/users.component';
+import { UpdateUserComponent } from './update-user/update-user.component';
+import { DeleteUserComponent } from './delete-user/delete-user.component';
 
 
 
@@ -41,17 +40,17 @@ export function tokenGetter() {
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
+
     LoginComponent,
-    FetchDataComponent,
+
     RegisterComponent,
     StudentsComponent,
     LoginComponent,
-    ForbiddenComponent,
-    PrivacyComponent,
     TeachersComponent,
     MarksComponent,
-    UsersComponent
+    UsersComponent,
+    UpdateUserComponent,
+    DeleteUserComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -64,14 +63,13 @@ export function tokenGetter() {
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full'},
-      { path: 'counter', component: CounterComponent, canActivate: [AuthGuard]  },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'login', component: LoginComponent},
       { path: 'register', component: RegisterComponent },
       { path: 'students', component: StudentsComponent },
       { path: 'teachers', component: TeachersComponent },
       { path: 'marks', component: MarksComponent },
       { path: 'users', component: UsersComponent },
+      { path: 'updateUser', component: UpdateUserComponent },
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({

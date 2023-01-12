@@ -1,15 +1,20 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import { Component, Inject, OnInit, ViewChild } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { UpdateUserData } from "app/interfaces/user/UpdateUserDto.model";
 import { UserForRegistrationDto } from "app/interfaces/user/UserForRegistrationDto.model";
 import { UserTeacherForRegistrationDto } from "app/interfaces/user/UserTeacherForRegistrationDto.model";
 import { User } from "app/models/ui-models/user.model";
 import { AuthenticationService } from "app/shared/services/authentication.service";
 import Swal from "sweetalert2";
 import { UsersService } from "./users.service";
-
 
 @Component({
   selector: "app-users",
@@ -20,23 +25,26 @@ export class UsersComponent implements OnInit {
   public errorMessage: string = "";
   public showError: boolean;
 
+  id: number;
+
   user: User[] = [];
   userForm: FormGroup = new FormGroup({
-    firstName: new FormControl( ""),
-    lastName: new FormControl( ""),
-    email: new FormControl ("", [Validators.required, Validators.email]),
+    firstName: new FormControl(""),
+    lastName: new FormControl(""),
+    email: new FormControl("", [Validators.required, Validators.email]),
     address: new FormControl(""),
     phoneNumber: new FormControl(""),
     password: new FormControl("", [Validators.required]),
   });
   userFromTeacher: FormGroup = new FormGroup({
-    firstNameTeacher: new FormControl( ""),
-    lastNameTeacher: new FormControl( ""),
-    emailTeacher: new FormControl ("", [Validators.required, Validators.email]),
+    firstNameTeacher: new FormControl(""),
+    lastNameTeacher: new FormControl(""),
+    emailTeacher: new FormControl("", [Validators.required, Validators.email]),
     addressTeacher: new FormControl(""),
     phoneNumberTeacher: new FormControl(""),
     passwordTeacher: new FormControl("", [Validators.required]),
   });
+
   displayedColumns: string[] = [
     "firstName",
     "lastName",
@@ -44,15 +52,18 @@ export class UsersComponent implements OnInit {
     "email",
     "address",
     "phoneNumber",
+    "actions",
+    "actions"
   ];
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
   @ViewChild(MatPaginator, { static: true }) matPaginator!: MatPaginator;
   filterString = "";
 
   constructor(
-    private _authService: AuthenticationService,
+    private fb: FormBuilder,
     private userService: UsersService,
-    private _router: Router
+    @Inject(Router) private _router: Router,
+    @Inject(ActivatedRoute) private _activatedroute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -74,16 +85,18 @@ export class UsersComponent implements OnInit {
   }
 
   public validateControl(controlName: string) {
-    return this.userForm.controls[controlName].invalid && this.userForm.controls[controlName].touched
+    return (
+      this.userForm.controls[controlName].invalid &&
+      this.userForm.controls[controlName].touched
+    );
   }
 
   public hasError(controlName: string, errorName: string) {
-    return this.userForm.controls[controlName].hasError(errorName)
+    return this.userForm.controls[controlName].hasError(errorName);
   }
 
   public Register = (registerFormValue) => {
-
-    this.showError = false
+    this.showError = false;
 
     const formValues = { ...registerFormValue };
     const user: UserForRegistrationDto = {
@@ -94,47 +107,47 @@ export class UsersComponent implements OnInit {
       phoneNumber: formValues.phoneNumber,
       password: formValues.password,
     };
-    this.userService.Register(user)
-      .subscribe(_ => {
+    this.userService.Register(user).subscribe(
+      (_) => {
         Swal.fire({
-          icon: 'success',
-          title: 'Your account has been created',
+          icon: "success",
+          title: "Your account has been created",
           showConfirmButton: true,
         }).then((result) => {
-          this._router.navigate(['/'])
-        })
+          this._router.navigate(["/"]);
+        });
       },
-        error => {
-          if (error.error.errors) {
-            this.showError = true
-            this.errorMessage = error.error.errors
-          }
-          else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong!',
-              footer: 'Please try again later!'
-            })
-          }
-
+      (error) => {
+        if (error.error.errors) {
+          this.showError = true;
+          this.errorMessage = error.error.errors;
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: "Please try again later!",
+          });
         }
-      )
-  }
+      }
+    );
+  };
 
   /// Teacher
 
   public validateControlTeacher(controlName: string) {
-    return this.userFromTeacher.controls[controlName].invalid && this.userFromTeacher.controls[controlName].touched
+    return (
+      this.userFromTeacher.controls[controlName].invalid &&
+      this.userFromTeacher.controls[controlName].touched
+    );
   }
 
   public hasErrorTeacher(controlName: string, errorName: string) {
-    return this.userFromTeacher.controls[controlName].hasError(errorName)
+    return this.userFromTeacher.controls[controlName].hasError(errorName);
   }
 
   public RegisterTeacher = (registerFormValue) => {
-
-    this.showError = false
+    this.showError = false;
 
     const formValues = { ...registerFormValue };
     const teacher: UserTeacherForRegistrationDto = {
@@ -145,31 +158,29 @@ export class UsersComponent implements OnInit {
       phoneNumberTeacher: formValues.phoneNumberTeacher,
       passwordTeacher: formValues.passwordTeacher,
     };
-    this.userService.RegisterTeacher(teacher)
-      .subscribe(_ => {
+    this.userService.RegisterTeacher(teacher).subscribe(
+      (_) => {
         Swal.fire({
-          icon: 'success',
-          title: 'Your account has been created',
+          icon: "success",
+          title: "Your account has been created",
           showConfirmButton: true,
         }).then((result) => {
-          this._router.navigate(['/'])
-        })
+          this._router.navigate(["/"]);
+        });
       },
-        error => {
-          if (error.error.errors) {
-            this.showError = true
-            this.errorMessage = error.error.errors
-          }
-          else {
-            Swal.fire({
-              icon: 'error',
-              title: 'Oops...',
-              text: 'Something went wrong!',
-              footer: 'Please try again later!'
-            })
-          }
-
+      (error) => {
+        if (error.error.errors) {
+          this.showError = true;
+          this.errorMessage = error.error.errors;
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong!",
+            footer: "Please try again later!",
+          });
         }
-      )
-  }
+      }
+    );
+  };
 }

@@ -9,9 +9,9 @@ namespace Catalog_Online.Services
     {
         public User RegisterUser(User user);
 
-        public User UpdateUserData(User newUserData, int id);
-
         public User GetUserById(int id);
+
+        public User UpdateUserData(User newUserData, int id);
 
         public List<User> GetAllUsers();
 
