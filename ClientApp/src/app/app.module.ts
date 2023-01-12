@@ -13,6 +13,7 @@ import { RegisterComponent } from './register/register.component';
 import { StudentsComponent } from './students/students.component';
 import { MarksComponent } from './marks/marks.component';
 import { TeachersComponent } from './teachers/teachers.component';
+import { SubjectsComponent } from './subjects/subjects.component';
 
 
 // Material Data tables
@@ -29,6 +30,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { UsersComponent } from './users/users.component';
 import { MessageFormComponent } from './message-form/message-form.component';
+import { MarksSubjectListComponent } from './marks-subject-list/marks-subject-list.component';
 
 
 
@@ -53,7 +55,9 @@ export function tokenGetter() {
     TeachersComponent,
     MarksComponent,
     UsersComponent,
-    MessageFormComponent
+    MessageFormComponent,
+    SubjectsComponent,
+    MarksSubjectListComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -74,7 +78,9 @@ export function tokenGetter() {
       { path: 'teachers', component: TeachersComponent },
       { path: 'marks', component: MarksComponent },
       { path: 'users', component: UsersComponent },
-      {path: 'message-form', component: MessageFormComponent}
+      { path: 'message-form', component: MessageFormComponent },
+      { path: 'subjects', component: SubjectsComponent },
+      { path: 'marksSubject', component: MarksSubjectListComponent }
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({

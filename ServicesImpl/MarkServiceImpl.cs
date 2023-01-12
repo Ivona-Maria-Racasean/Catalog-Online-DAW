@@ -47,17 +47,35 @@ namespace Catalog_Online.ServicesImpl
             return markWithSubjectDtos;
         }
 
-        public List<Mark> GetMarksBySubjectId(int id)
-        {
-            return _context.Marks.Where(m => m.SubjectId == id).ToList();
-        }
 
-        public List<Subject> GetSubjectsByTeacherName(string firstName, string lastName)
+        public List<Subject> GetSubjectsByCurrentTeacher(User user)
         {
-            var teacherName = firstName + " " + lastName;
-            //var teacherName2 = lastName + " " + firstName;
+            
+            var teacherName = user.FirstName+user.LastName;
             List<Subject> subjects = _context.Subjects.Where(s => s.TeacherName == teacherName).ToList();
             return subjects;
+        }
+
+        public List<GetMarksBySubjectDto> GetMarksByCurrentSubjectId(int subjectId)
+        {
+            List<Mark> marks = _context.Marks.Where(m => m.SubjectId == subjectId).ToList();
+
+            List<GetMarksBySubjectDto> marksBySubjectDtos = new List<GetMarksBySubjectDto>();
+
+            foreach (var mark in marks)
+            {
+                var user = _context.Users.FirstOrDefault(u => u.Id == mark.UserId);
+                GetMarksBySubjectDto dto = new()
+                {
+                    SubjectId = mark.SubjectId,
+                    UserId = mark.UserId,
+                    Value = mark.Value,
+                    FirstName = user.FirstName,
+                    LastName = user.LastName
+                };
+                marksBySubjectDtos.Add(dto);
+            }
+            return marksBySubjectDtos;
         }
     }
 }
