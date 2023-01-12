@@ -26,8 +26,6 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './shared/guards/auth.guard';
 import { UsersComponent } from './users/users.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
-import { DeleteUserComponent } from './delete-user/delete-user.component';
-
 
 
 
@@ -40,9 +38,7 @@ export function tokenGetter() {
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-
     LoginComponent,
-
     RegisterComponent,
     StudentsComponent,
     LoginComponent,
@@ -50,7 +46,6 @@ export function tokenGetter() {
     MarksComponent,
     UsersComponent,
     UpdateUserComponent,
-    DeleteUserComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),

@@ -8,16 +8,21 @@ using Catalog_Online.Models.Dtos;
 using System.Net.Sockets;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Internal;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Catalog_Online.Managers
 {
     public class UserServiceImpl : IUserService
     {
         RepositoryContext _context;
+
+
         public UserServiceImpl(RepositoryContext context) {
             _context = context;
         }
 
+    
         public List<User> GetAllUsers()
         {
             return _context.Users.ToList();
@@ -34,8 +39,6 @@ namespace Catalog_Online.Managers
             _context.SaveChanges();
             return newUser.Entity;
         }
-
-    
 
         public bool CheckPassword(User user, string password)
         {
@@ -145,6 +148,18 @@ namespace Catalog_Online.Managers
             return originalUserData;
         }
 
-     
+        public User DeleteUserData( int id)
+        {
+            var DeleteUserData = _context.Users.FirstOrDefault(ud => ud.Id == id);
+            if (DeleteUserData == null) return null;
+
+            _context.Users.Remove(DeleteUserData);
+         
+             _context.SaveChanges();
+            return DeleteUserData;
+        }
+
+
+
     }
 }

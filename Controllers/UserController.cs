@@ -89,6 +89,14 @@ namespace Catalog_Online.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("{id:int}")]
+        public ActionResult<User> DeleteUserData([FromBody] int id)
+        {
+ 
+            var result = _userService.DeleteUserData(id);
+            return Ok(result);
+        }
+
 
         [HttpGet]
         public ActionResult<List<User>> GetAllUsers()

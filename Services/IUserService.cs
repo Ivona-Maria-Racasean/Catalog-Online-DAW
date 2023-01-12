@@ -13,6 +13,8 @@ namespace Catalog_Online.Services
 
         public User UpdateUserData(User newUserData, int id);
 
+        public User DeleteUserData( int id);
+
         public List<User> GetAllUsers();
 
         public List<StudentUserListing> GetAllStudentUsersData();

@@ -20,4 +20,8 @@ export class UpdateUserService {
   getUserById(id): Observable<User[]> {
     return this.httpClient.get<User[]>(this.baseAPiUrl + '/api/user/' + id)
   }
+
+  DeleteUserData(id: number)  {
+    return this.httpClient.delete(this.baseAPiUrl + '/api/user/' + id)
+  }
 }

@@ -5,6 +5,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { MatDialog } from "@angular/material";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -13,6 +14,7 @@ import { UserForRegistrationDto } from "app/interfaces/user/UserForRegistrationD
 import { UserTeacherForRegistrationDto } from "app/interfaces/user/UserTeacherForRegistrationDto.model";
 import { User } from "app/models/ui-models/user.model";
 import { AuthenticationService } from "app/shared/services/authentication.service";
+import { UpdateUserComponent } from "app/update-user/update-user.component";
 import Swal from "sweetalert2";
 import { UsersService } from "./users.service";
 
@@ -63,8 +65,9 @@ export class UsersComponent implements OnInit {
     private fb: FormBuilder,
     private userService: UsersService,
     @Inject(Router) private _router: Router,
-    @Inject(ActivatedRoute) private _activatedroute: ActivatedRoute
+    @Inject(ActivatedRoute) private _activatedroute: ActivatedRoute,
   ) {}
+
 
   ngOnInit(): void {
 
