@@ -6,7 +6,7 @@ import { StudentData } from '../models/ui-models/studentData.model';
 @Injectable({
   providedIn: 'root'
 })
-export class StudentService {
+export class CataloguesService {
 
   private baseAPiUrl ='https://localhost:44350';
 
@@ -15,5 +15,4 @@ export class StudentService {
   getStudent(): Observable<StudentData[]>{
     return this.httpClient.get<StudentData[]>(this.baseAPiUrl + '/api/user/StudentData');
   }
-
 }

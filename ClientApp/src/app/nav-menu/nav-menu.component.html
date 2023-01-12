@@ -1,4 +1,4 @@
-<header>
+<header *ngIf="(this.isUserAuthenticated && this.currentUser) || !this.isUserAuthenticated">
   <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
     <div class="container">
       <a class="navbar-brand" [routerLink]="['/']">Catalog Online</a>
@@ -7,50 +7,31 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="navbar-collapse collapse d-sm-inline-flex justify-content-end" [ngClass]="{ show: isExpanded }">
-        <ul class="navbar-nav flex-grow">
-          <!-- <li class="nav-item"
-              [routerLinkActive]="['link-active']"
-              [routerLinkActiveOptions]="{ exact: true }">
-            <a class="nav-link text-dark" [routerLink]="['/']">Home</a>
-          </li> -->
-          <li class="nav-item" *ngIf="!this.isUserAuthenticated" [routerLinkActive]="['link-active']">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+          <li class="nav-item active" *ngIf="!this.isUserAuthenticated" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
           </li>
-          <!-- <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/register']">Register</a>
-          </li> -->
-          <li class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/counter']">Counter</a>
+
+          <li *ngIf="this.isUserAuthenticated &&  (this.currentUser.role == 'Secretary' || this.currentUser.role == 'Admin')" class="nav-item active" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/catalogues']">Catalogues</a>
           </li>
-          <li *ngIf="this.isUserAuthenticated" class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/fetch-data']">Fetch data</a>
-          </li>
-          <li *ngIf="this.isUserAuthenticated " class="nav-item" [routerLinkActive]="['link-active']">
-            <a class="nav-link text-dark" [routerLink]="['/students']">Students</a>
-          </li>
-          <li *ngIf="this.isUserAuthenticated  " class="nav-item" [routerLinkActive]="['link-active']">
+          <li *ngIf="this.isUserAuthenticated  && this.currentUser.role == 'Admin'" class="nav-item active" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/users']">Users</a>
           </li>
-          <li *ngIf="this.isUserAuthenticated && this.currentUser.role == 'Secretary'" class="nav-item" [routerLinkActive]="['link-active']">
+          <li *ngIf="this.isUserAuthenticated && this.currentUser.role == 'Secretary'" class="nav-item active" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/message-form']">Message Form</a>
           </li>
-          <li *ngIf="this.isUserAuthenticated" class="nav-item">
-            <a class="nav-link" [routerLink]="['/privacy']" routerLinkActive="active"
-              [routerLinkActiveOptions]="{exact: true}"> Privacy </a>
-          </li>
 
-          <!-- <li *ngIf="this.isUserAuthenticated" class="nav-item">
-            <button class="btn btn-link" style="color: #ffffff80;" (click)="logout()">Logout</button>
-          </li> -->
+          <ul *ngIf="this.isUserAuthenticated" class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item">
+              <button class="btn btn-link" style="color: #ffffff80;" (click)="logout()">
+                <a class="nav-link text-dark" [routerLink]="['']" (click)="logout()"
+                >Logout</a></button>
+            </li>
+          </ul>
+        </ul>
 
-        </ul>
-        <ul *ngIf="this.isUserAuthenticated" class="navbar-nav mr-auto mt-2 mt-lg-0">
-          <li class="nav-item">
-            <button class="btn btn-link" style="color: #ffffff80;" (click)="logout()">
-              <a class="nav-link text-dark" [routerLink]="['']" (click)="logout()"
-              >Logout</a></button>
-          </li>
-        </ul>
       </div>
     </div>
   </nav>

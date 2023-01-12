@@ -6,11 +6,9 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+
 import { LoginComponent } from './authentication/login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { StudentsComponent } from './students/students.component';
+import { CataloguesComponent} from './students/catalogues.component';
 import { MarksComponent } from './marks/marks.component';
 import { TeachersComponent } from './teachers/teachers.component';
 import { SubjectsComponent } from './subjects/subjects.component';
@@ -26,12 +24,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // auth
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './shared/guards/auth.guard';
-import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { PrivacyComponent } from './privacy/privacy.component';
 import { UsersComponent } from './users/users.component';
 import { MessageFormComponent } from './message-form/message-form.component';
 import { MarksSubjectListComponent } from './marks-subject-list/marks-subject-list.component';
-
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 
 
@@ -44,20 +40,16 @@ export function tokenGetter() {
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     LoginComponent,
-    FetchDataComponent,
-    RegisterComponent,
-    StudentsComponent,
+    CataloguesComponent,
     LoginComponent,
-    ForbiddenComponent,
-    PrivacyComponent,
     TeachersComponent,
     MarksComponent,
     UsersComponent,
     MessageFormComponent,
     SubjectsComponent,
     MarksSubjectListComponent
+    UpdateUserComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -70,17 +62,15 @@ export function tokenGetter() {
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full'},
-      { path: 'counter', component: CounterComponent, canActivate: [AuthGuard]  },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
-      { path: 'students', component: StudentsComponent },
+      { path: 'catalogues', component: CataloguesComponent },
       { path: 'teachers', component: TeachersComponent },
       { path: 'marks', component: MarksComponent },
       { path: 'users', component: UsersComponent },
       { path: 'message-form', component: MessageFormComponent },
       { path: 'subjects', component: SubjectsComponent },
       { path: 'marksSubject', component: MarksSubjectListComponent }
+      { path: 'updateUser', component: UpdateUserComponent },
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({
@@ -91,7 +81,7 @@ export function tokenGetter() {
       }
     }),
   ],
-  providers: [],
+  providers: [NavMenuComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

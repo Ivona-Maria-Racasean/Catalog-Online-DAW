@@ -7,24 +7,25 @@ using System;
 using Catalog_Online.Models.Dtos;
 using System.Net.Sockets;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Internal;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Catalog_Online.Managers
 {
     public class UserServiceImpl : IUserService
     {
         RepositoryContext _context;
+
+
         public UserServiceImpl(RepositoryContext context) {
             _context = context;
         }
 
+    
         public List<User> GetAllUsers()
         {
             return _context.Users.ToList();
-        }
-
-        public User GetUserById(int id)
-        {
-            return _context.Users.FirstOrDefault(u => u.Id == id);
         }
 
         public User GetUserByEmail(string email)
@@ -93,6 +94,11 @@ namespace Catalog_Online.Managers
                 if (role.Name == "Student")
                 {
                     var StudentData = _context.StudentsData.FirstOrDefault(sd => sd.UserId == users[i].Id);
+
+                    var studentMarks = _context.Marks.Where(m => m.UserId== users[i].Id).ToList();
+                    var subjectsIds = studentMarks.Select(m => m.SubjectId).ToList();
+                    var subjectNames = _context.Subjects.Where(s => subjectsIds.Contains(s.Id)).Select(s => s.Name).ToList();
+
                     StudentUserListing listing = new()
                     {
                         User = users[i],
@@ -100,7 +106,8 @@ namespace Catalog_Online.Managers
                         UserId = users[i].Id,
                         YearOfStudying = StudentData.YearOfStudying,
                         RegistrationNumber = StudentData.RegistrationNumber,
-                        Class = StudentData.Class
+                        Class = StudentData.Class,
+                        Subjects = subjectNames
                     };
 
                     studentUsers.Add(listing);
@@ -125,5 +132,40 @@ namespace Catalog_Online.Managers
 
             return teachers;
         }
+
+        public User GetUserById(int id)
+        {
+            return _context.Users.FirstOrDefault(u => u.Id == id);
+        }
+
+        public User UpdateUserData(User newUserData, int id)
+        {
+            var originalUserData = _context.Users.FirstOrDefault(ud => ud.Id == id);
+            if (originalUserData == null) return null;
+
+            originalUserData.Id = newUserData.Id;
+            originalUserData.FirstName = newUserData.FirstName;
+            originalUserData.LastName = newUserData.LastName;
+            originalUserData.Email = newUserData.Email;
+            originalUserData.Address = newUserData.Address;
+            originalUserData.PhoneNumber = newUserData.PhoneNumber;
+
+            _context.SaveChanges();
+            return originalUserData;
+        }
+
+        public User DeleteUserData( int id)
+        {
+            var DeleteUserData = _context.Users.FirstOrDefault(ud => ud.Id == id);
+            if (DeleteUserData == null) return null;
+
+            _context.Users.Remove(DeleteUserData);
+         
+             _context.SaveChanges();
+            return DeleteUserData;
+        }
+
+
+
     }
 }
