@@ -55,7 +55,6 @@ export class UsersComponent implements OnInit {
     "address",
     "phoneNumber",
     "actions",
-    "actions"
   ];
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
   @ViewChild(MatPaginator, { static: true }) matPaginator!: MatPaginator;

@@ -8,7 +8,6 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 
 import { LoginComponent } from './authentication/login/login.component';
-import { RegisterComponent } from './register/register.component';
 import { CataloguesComponent} from './students/catalogues.component';
 import { MarksComponent } from './marks/marks.component';
 import { TeachersComponent } from './teachers/teachers.component';
@@ -25,7 +24,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './shared/guards/auth.guard';
 import { UsersComponent } from './users/users.component';
-import { MessageFormComponent } from './message-form/message-form.component
+import { MessageFormComponent } from './message-form/message-form.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 
 
@@ -40,7 +39,6 @@ export function tokenGetter() {
     NavMenuComponent,
     HomeComponent,
     LoginComponent,
-    RegisterComponent,
     CataloguesComponent,
     LoginComponent,
     TeachersComponent,
@@ -60,10 +58,7 @@ export function tokenGetter() {
     ReactiveFormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent, pathMatch: 'full'},
-      { path: 'counter', component: CounterComponent, canActivate: [AuthGuard]  },
-      { path: 'fetch-data', component: FetchDataComponent },
       { path: 'login', component: LoginComponent },
-      { path: 'register', component: RegisterComponent },
       { path: 'catalogues', component: CataloguesComponent },
       { path: 'teachers', component: TeachersComponent },
       { path: 'marks', component: MarksComponent },
@@ -80,7 +75,7 @@ export function tokenGetter() {
       }
     }),
   ],
-  providers: [],
+  providers: [NavMenuComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
