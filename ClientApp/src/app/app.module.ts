@@ -11,6 +11,7 @@ import { LoginComponent } from './authentication/login/login.component';
 import { CataloguesComponent} from './students/catalogues.component';
 import { MarksComponent } from './marks/marks.component';
 import { TeachersComponent } from './teachers/teachers.component';
+import { SubjectsComponent } from './subjects/subjects.component';
 
 
 // Material Data tables
@@ -25,6 +26,7 @@ import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './shared/guards/auth.guard';
 import { UsersComponent } from './users/users.component';
 import { MessageFormComponent } from './message-form/message-form.component';
+import { MarksSubjectListComponent } from './marks-subject-list/marks-subject-list.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 
 
@@ -45,6 +47,8 @@ export function tokenGetter() {
     MarksComponent,
     UsersComponent,
     MessageFormComponent,
+    SubjectsComponent,
+    MarksSubjectListComponent
     UpdateUserComponent,
   ],
   imports: [
@@ -64,6 +68,8 @@ export function tokenGetter() {
       { path: 'marks', component: MarksComponent },
       { path: 'users', component: UsersComponent },
       { path: 'message-form', component: MessageFormComponent },
+      { path: 'subjects', component: SubjectsComponent },
+      { path: 'marksSubject', component: MarksSubjectListComponent }
       { path: 'updateUser', component: UpdateUserComponent },
     ]),
     BrowserAnimationsModule,
