@@ -6,8 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+
 import { LoginComponent } from './authentication/login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { CataloguesComponent} from './students/catalogues.component';
@@ -25,11 +24,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 // auth
 import { JwtModule } from "@auth0/angular-jwt";
 import { AuthGuard } from './shared/guards/auth.guard';
-import { ForbiddenComponent } from './forbidden/forbidden.component';
-import { PrivacyComponent } from './privacy/privacy.component';
 import { UsersComponent } from './users/users.component';
-import { MessageFormComponent } from './message-form/message-form.component';
-
+import { MessageFormComponent } from './message-form/message-form.component
+import { UpdateUserComponent } from './update-user/update-user.component';
 
 
 
@@ -42,18 +39,15 @@ export function tokenGetter() {
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
     LoginComponent,
-    FetchDataComponent,
     RegisterComponent,
     CataloguesComponent,
     LoginComponent,
-    ForbiddenComponent,
-    PrivacyComponent,
     TeachersComponent,
     MarksComponent,
     UsersComponent,
-    MessageFormComponent
+    MessageFormComponent,
+    UpdateUserComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -74,7 +68,8 @@ export function tokenGetter() {
       { path: 'teachers', component: TeachersComponent },
       { path: 'marks', component: MarksComponent },
       { path: 'users', component: UsersComponent },
-      {path: 'message-form', component: MessageFormComponent}
+      { path: 'message-form', component: MessageFormComponent },
+      { path: 'updateUser', component: UpdateUserComponent },
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({

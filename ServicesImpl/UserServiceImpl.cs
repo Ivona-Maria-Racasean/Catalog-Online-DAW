@@ -7,24 +7,25 @@ using System;
 using Catalog_Online.Models.Dtos;
 using System.Net.Sockets;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Internal;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Catalog_Online.Managers
 {
     public class UserServiceImpl : IUserService
     {
         RepositoryContext _context;
+
+
         public UserServiceImpl(RepositoryContext context) {
             _context = context;
         }
 
+    
         public List<User> GetAllUsers()
         {
             return _context.Users.ToList();
-        }
-
-        public User GetUserById(int id)
-        {
-            return _context.Users.FirstOrDefault(u => u.Id == id);
         }
 
         public User GetUserByEmail(string email)
@@ -131,5 +132,40 @@ namespace Catalog_Online.Managers
 
             return teachers;
         }
+
+        public User GetUserById(int id)
+        {
+            return _context.Users.FirstOrDefault(u => u.Id == id);
+        }
+
+        public User UpdateUserData(User newUserData, int id)
+        {
+            var originalUserData = _context.Users.FirstOrDefault(ud => ud.Id == id);
+            if (originalUserData == null) return null;
+
+            originalUserData.Id = newUserData.Id;
+            originalUserData.FirstName = newUserData.FirstName;
+            originalUserData.LastName = newUserData.LastName;
+            originalUserData.Email = newUserData.Email;
+            originalUserData.Address = newUserData.Address;
+            originalUserData.PhoneNumber = newUserData.PhoneNumber;
+
+            _context.SaveChanges();
+            return originalUserData;
+        }
+
+        public User DeleteUserData( int id)
+        {
+            var DeleteUserData = _context.Users.FirstOrDefault(ud => ud.Id == id);
+            if (DeleteUserData == null) return null;
+
+            _context.Users.Remove(DeleteUserData);
+         
+             _context.SaveChanges();
+            return DeleteUserData;
+        }
+
+
+
     }
 }
