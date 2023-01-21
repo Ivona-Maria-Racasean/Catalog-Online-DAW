@@ -91,5 +91,11 @@ namespace Catalog_Online.Controllers
             _subjectService.DeleteSubject(subjectToBeDeleted);
             return Ok();
         }
+
+        [HttpDelete("removeStudent/{studentId}/{subjectId}")]
+        public IActionResult RemoveStudentFromSubject(int studentId, int subjectId) {
+            _subjectService.RemoveStudentFromSubject(subjectId, studentId);
+            return Ok();
+        }
     }
 }

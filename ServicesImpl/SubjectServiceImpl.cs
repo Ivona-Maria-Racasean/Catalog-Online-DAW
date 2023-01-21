@@ -71,5 +71,16 @@ namespace Catalog_Online.ServicesImpl
             }
             return subjectsStudents;
         }
+
+        public void RemoveStudentFromSubject(int subjectId, int studentId)
+        {
+            Mark studentsMark = _context.Marks.Where(m => m.UserId == studentId && m.SubjectId== subjectId).FirstOrDefault();
+
+            if (studentsMark != null)
+            {
+                _context.Marks.Remove(studentsMark);
+                _context.SaveChanges(true);
+            }
+        }
     }
 }

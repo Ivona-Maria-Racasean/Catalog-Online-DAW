@@ -19,5 +19,6 @@ namespace Catalog_Online.Services
 
         public Mark AddStudentToSubject(Subject subject, int studentId);
 
+        public void RemoveStudentFromSubject(int subjectId, int studentId);
     }
 }

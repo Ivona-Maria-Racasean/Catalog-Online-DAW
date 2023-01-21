@@ -38,13 +38,13 @@
     text-decoration: underline;
   }
 
-  .actionButtonDanger{
+  .actionButtonWarning{
     border: none;
     background-color: inherit;
     color: rgb(255, 180, 89);
   }
 
-  .actionButtonDanger:hover{
+  .actionButtonWarning:hover{
     color: darkorange;
     text-decoration: underline;
   }

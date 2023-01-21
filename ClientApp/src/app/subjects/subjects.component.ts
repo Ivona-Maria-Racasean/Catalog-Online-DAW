@@ -24,6 +24,9 @@ export class SubjectsComponent implements OnInit {
   subjectToStudents: Map<number, SubjectStudents>
   studentsData: Map<string, StudentData>
 
+  searchByName: string;
+  searchByTeacher: string;
+
   displayedStudents: User[]
   displayedSubject: Subject
 
@@ -35,7 +38,7 @@ export class SubjectsComponent implements OnInit {
   displayedColumns: string[] = ['Name', 'Teacher', 'YearOfTeaching', 'Semester','actions']
   dataSource: MatTableDataSource<Subject> = new MatTableDataSource<Subject>();
 
-  displayedStudensColumns: string[] = ['Registration Number', 'Name', 'Class', 'Phone Number', 'Email']
+  displayedStudensColumns: string[] = ['Registration Number', 'Name', 'Class', 'Phone Number', 'Email', 'Actions']
   displayedStudentsDataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
 
   @ViewChild(MatPaginator, { static: true }) matPaginator!: MatPaginator;
@@ -181,6 +184,9 @@ export class SubjectsComponent implements OnInit {
       this.subjectService.AddStudentToSubject(subject, selectedStudentId.value).subscribe(
         async _res =>{
           this.subjectToStudents = await this.subjectService.GetSubjectsStudents().toPromise();
+          if(this.displayedSubject){
+            this.viewStudents(this.displayedSubject)
+          }
         Swal.fire({
           icon: "success",
           title: "Success",
@@ -228,5 +234,59 @@ export class SubjectsComponent implements OnInit {
     return idToStudentDataMapping;
   }
 
+  public async removeStudent(student: User){
+    const resp = await Swal.fire({
+      icon: "question",
+      text: `Are you sure you want to remove ${student.firstName} ${student.lastName} from ${this.displayedSubject.name} subject?`,
+      confirmButtonColor: "green",
+      confirmButtonText: "Yes",
+      showDenyButton: true,
+      denyButtonColor: "red",
+      denyButtonText: "No"
+    })
+
+    if(resp.isDenied || resp.isDismissed){
+      return
+    }
+
+    if(resp.isConfirmed){
+      this.subjectService.RemoveStudent(student.id, this.displayedSubject.id).subscribe(
+        async _res =>{
+          this.subjectToStudents = await this.subjectService.GetSubjectsStudents().toPromise();
+          this.studentsData = this.generateStudentIdToStudentDataMapping(await this.subjectService.GetStudentData().toPromise());
+         this.viewStudents(this.displayedSubject)
+          Swal.fire({
+            icon: "success",
+            title: "Success",
+            text: `${student.firstName} ${student.lastName} removed from ${this.displayedSubject.name}`
+          })
+      }, 
+      _err => {
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong, please try again later"
+        })
+      })
+    }
+  }
+
+  filterByName(){
+    this.searchByTeacher = "";
+    this.displayedStudents = undefined;
+    this.displayedSubject = undefined;
+
+    var filteredSubjects: Subject[] = this.subjects.filter(subject => subject.name.includes(this.searchByName)) 
+    this.dataSource = new MatTableDataSource<Subject>(filteredSubjects);
+  }
+
+  filterByTeacher(){
+    this.searchByName = ""
+    this.displayedStudents = undefined;
+    this.displayedSubject = undefined;
+
+    var filteredSubjects: Subject[] = this.subjects.filter(subject => subject.teacherName.includes(this.searchByTeacher)) 
+    this.dataSource = new MatTableDataSource<Subject>(filteredSubjects);
+  }
 }
  

@@ -43,4 +43,8 @@ export class SubjectsService {
     return this.httpClient.get<StudentData[]>(this.baseAPiUrl + '/api/user/StudentData');
   }
 
+  RemoveStudent(studentId: string, subjectId: string){
+    return this.httpClient.delete(this.baseAPiUrl + `/api/subject/removeStudent/${studentId}/${subjectId}`);
+  }
+
 }
