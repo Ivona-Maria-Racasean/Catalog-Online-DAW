@@ -28,10 +28,7 @@ namespace Catalog_Online.Managers
             return _context.Users.ToList();
         }
 
-        public User GetUserByEmail(string email)
-        {
-            return _context.Users.FirstOrDefault(u => u.Email == email);
-        }
+       
 
         public User RegisterUser(User user)
         {   
@@ -132,6 +129,10 @@ namespace Catalog_Online.Managers
 
             return teachers;
         }
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
 
         public User GetUserById(int id)
         {
@@ -164,8 +165,5 @@ namespace Catalog_Online.Managers
              _context.SaveChanges();
             return DeleteUserData;
         }
-
-
-
     }
 }

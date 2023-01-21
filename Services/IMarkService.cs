@@ -13,6 +13,8 @@ namespace Catalog_Online.Services
 
         public List<Subject> GetSubjectsByCurrentTeacher(User user);
 
+        public User GetUserByEmail(string email);
+
         public List<GetMarksBySubjectDto> GetMarksByCurrentSubjectId(int subjectId);
     }
 }

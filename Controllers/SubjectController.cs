@@ -1,6 +1,7 @@
 ﻿using Catalog_Online.Models.Dtos;
 using Catalog_Online.Models.Entity;
 using Catalog_Online.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -24,6 +25,7 @@ namespace Catalog_Online.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public ActionResult<Subject> AddSubject([FromBody] SubjectDto dto)
         {
             Subject subject = new()

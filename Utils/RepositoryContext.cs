@@ -10,7 +10,6 @@ namespace Catalog_Online.Helper
         : base(options)
         {
         }
-
         public DbSet<User> Users { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<StudentData> StudentsData { get; set; } 

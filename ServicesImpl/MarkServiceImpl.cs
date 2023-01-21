@@ -24,6 +24,10 @@ namespace Catalog_Online.ServicesImpl
             return newMark.Entity;
         }
 
+        public User GetUserByEmail(string email)
+        {
+            return _context.Users.FirstOrDefault(u => u.Email == email);
+        }
         public List<GetMarkWithSubjectDto> GetMarksByUserId(int id)
         {
             List<Mark> marks = _context.Marks.Where(m => m.UserId == id).ToList();

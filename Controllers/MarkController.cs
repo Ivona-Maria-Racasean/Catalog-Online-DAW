@@ -37,6 +37,14 @@ namespace Catalog_Online.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{email}")]
+        public ActionResult<User> GetUserByEmail(string email)
+        {
+            var result = _markService.GetUserByEmail(email);
+
+            return Ok(result);
+        }
+
 
         [HttpGet("{id:int}")]
         public ActionResult<List<GetMarkWithSubjectDto>> GetMarksByUserId(int id)
@@ -44,7 +52,7 @@ namespace Catalog_Online.Controllers
             return _markService.GetMarksByUserId(id);
         }
 
-        [Authorize]
+       // [Authorize]
         [HttpGet("subject")]
         public ActionResult<List<Subject>> GetSubjectsByCurrentTeacher()
         {

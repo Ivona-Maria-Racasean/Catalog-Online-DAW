@@ -49,7 +49,7 @@ export class UpdateUserComponent implements OnInit {
         address: dataUser[5],
         phoneNumber: dataUser[6],
       });
-      console.log("from", this.editForm)
+      console.log("form", this.editForm)
     });
 
 
