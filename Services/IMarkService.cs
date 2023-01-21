@@ -16,5 +16,9 @@ namespace Catalog_Online.Services
         public User GetUserByEmail(string email);
 
         public List<GetMarksBySubjectDto> GetMarksByCurrentSubjectId(int subjectId);
+
+        public List<Mark> GetAllMarks();
+
+        public void RemoveMark(int subjectId, int studentId);
     }
 }

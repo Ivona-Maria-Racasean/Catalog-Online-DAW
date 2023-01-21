@@ -18,10 +18,18 @@ namespace Catalog_Online.ServicesImpl
 
         public Mark AddMark(Mark mark)
         {
-            var newMark = _context.Marks.Add(mark);
+            var newMark = _context.Marks.Single(m => m.SubjectId == mark.SubjectId && m.UserId == mark.UserId);
+            if(newMark == null)
+            {
+                newMark = _context.Add(mark).Entity;
+            }
+            else
+            {
+                newMark.Value = mark.Value;
+            }
             _context.SaveChanges();
 
-            return newMark.Entity;
+            return newMark;
         }
 
         public User GetUserByEmail(string email)
@@ -51,7 +59,6 @@ namespace Catalog_Online.ServicesImpl
             return markWithSubjectDtos;
         }
 
-
         public List<Subject> GetSubjectsByCurrentTeacher(User user)
         {
             
@@ -80,6 +87,18 @@ namespace Catalog_Online.ServicesImpl
                 marksBySubjectDtos.Add(dto);
             }
             return marksBySubjectDtos;
+        }
+
+        public List<Mark> GetAllMarks()
+        {
+            return _context.Marks.ToList();
+        }
+
+        public void RemoveMark(int subjectId, int studentId)
+        {
+            Mark markToRemove = _context.Marks.Single(m => m.SubjectId == subjectId && m.UserId == studentId);
+            markToRemove.Value = 0;
+            _context.SaveChanges();
         }
     }
 }

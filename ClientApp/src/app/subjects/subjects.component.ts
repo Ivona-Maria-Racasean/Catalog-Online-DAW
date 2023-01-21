@@ -1,8 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
-import { ActivatedRoute } from '@angular/router';
+import { MarkService } from 'app/marks/marks.service';
 import { StudentData } from 'app/models/api-models/studentData.model';
 import { User } from 'app/models/api-models/user.model';
+import { BaseMark } from 'app/models/ui-models/baseMark.model';
 import { CurrentUser } from 'app/models/ui-models/currentUser.model';
 import { SubjectStudents } from 'app/models/ui-models/subjectStudents';
 import { AuthenticationService } from 'app/shared/services/authentication.service';
@@ -23,11 +24,13 @@ export class SubjectsComponent implements OnInit {
   newSubjectTeacherId: string;
   subjectToStudents: Map<number, SubjectStudents>
   studentsData: Map<string, StudentData>
+  studentsMarks: BaseMark[]
 
   searchByName: string;
   searchByTeacher: string;
 
   displayedStudents: User[]
+  displayedStudentsMarks: Map<string, BaseMark> 
   displayedSubject: Subject
 
   newSubject: Subject;
@@ -38,15 +41,17 @@ export class SubjectsComponent implements OnInit {
   displayedColumns: string[] = ['Name', 'Teacher', 'YearOfTeaching', 'Semester','actions']
   dataSource: MatTableDataSource<Subject> = new MatTableDataSource<Subject>();
 
-  displayedStudensColumns: string[] = ['Registration Number', 'Name', 'Class', 'Phone Number', 'Email', 'Actions']
+  displayedStudensColumns: string[] = ['Registration Number', 'Name', 'Mark', 'Class', 'Phone Number', 'Email', 'Actions']
   displayedStudentsDataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
 
   @ViewChild(MatPaginator, { static: true }) matPaginator!: MatPaginator;
   @ViewChild(MatSort, { static: true }) matSort!: MatSort;
   filterString = '';
-  constructor(private subjectService: SubjectsService,
+  constructor(
+    private subjectService: SubjectsService,
     private authService: AuthenticationService,
-    private userService: UsersService) { }
+    private userService: UsersService,
+    private markService: MarkService) { }
 
   async ngOnInit() {
     this.resetNewSubject();
@@ -56,6 +61,7 @@ export class SubjectsComponent implements OnInit {
     this.teachers = await this.userService.GetTeachers().toPromise();
     this.subjectToStudents = await this.subjectService.GetSubjectsStudents().toPromise();
     this.studentsData = this.generateStudentIdToStudentDataMapping(await this.subjectService.GetStudentData().toPromise());
+    this.studentsMarks = await this.markService.getAllMarks().toPromise();
     this.newSubjectTeacherId = this.teachers[0].id;
 
     if(this.currentUser.role == "Admin"){
@@ -217,11 +223,18 @@ export class SubjectsComponent implements OnInit {
     this.displayedSubject = subject;
     this.displayedStudents = this.subjectToStudents[Number(subject.id)].enrolledStudents;
     this.displayedStudentsDataSource = new MatTableDataSource<User>(this.displayedStudents);
+
+      this.displayedStudentsMarks = new Map<string, BaseMark>()
+      var marksForDisplayedStudents = this.studentsMarks.filter(mark => mark.subjectId === Number(this.displayedSubject.id));
+      marksForDisplayedStudents.forEach(studentMark => {
+        this.displayedStudentsMarks.set(studentMark.userId.toString(), studentMark)
+      });
   }
 
   public hideStudents(){
     this.displayedStudents = undefined;
     this.displayedSubject = undefined;
+    this.displayedStudentsMarks = undefined;
   }
 
   public generateStudentIdToStudentDataMapping(studentData: StudentData[]): Map<string, StudentData>{
@@ -269,6 +282,92 @@ export class SubjectsComponent implements OnInit {
         })
       })
     }
+  }
+
+  public getStudentMark(student: User){
+    var mark = this.displayedStudentsMarks.get(student.id.toString()).value
+    return mark == 0 ? 'N/A' : mark; 
+  }
+
+  public async gradeStudent(student: User){
+    const grade = await Swal.fire({
+      icon: "question",
+      text: `Add a grade to ${student.firstName} ${student.lastName} for ${this.displayedSubject.name} `,
+      input: 'select',
+      inputOptions: {
+        1: "1",
+        2: "2",
+        3: "3",
+        4: "4",
+        5: "5",
+        6: "6",
+        7: "7",
+        8: "8",
+        9: "9",
+        10: "10"
+      },
+      inputPlaceholder: 'Select a grade',
+      showCancelButton: true
+    });
+
+    if(grade.isConfirmed && grade.value != ''){
+      var mark = this.displayedStudentsMarks.get(student.id.toString());
+      mark.value = grade.value;
+      this.markService.addMark(mark).subscribe(async _res =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: "Student was graded successfully!"
+        })
+        this.studentsMarks = await this.markService.getAllMarks().toPromise();
+        this.viewStudents(this.displayedSubject);
+        }, _error =>{
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Something went wrong, please try again later"
+          })
+        }
+      )
+    }
+
+  }
+
+  public async removeGrade(student: User){
+    var res = await Swal.fire({
+      icon: "warning",
+      text: "Are you sure you want to remove the mark?",
+      showDenyButton: true,
+      confirmButtonColor: "green",
+      confirmButtonText: "Yes",
+      denyButtonColor: "red",
+      denyButtonText: "No"
+    })
+
+    console.log(res)
+    if(res.isConfirmed){
+      this.markService.removeMark(this.displayedSubject.id, student.id).subscribe(
+        async _res =>{
+        Swal.fire({
+          icon: 'success',
+          title: 'Success',
+          text: "Student was graded successfully!"
+        })
+        this.studentsMarks = await this.markService.getAllMarks().toPromise();
+        this.viewStudents(this.displayedSubject);
+      },_error =>{
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Something went wrong, please try again later"
+        })
+      })
+    }
+
+  }
+  
+  public notGraded(student: User): boolean{
+    return this.displayedStudentsMarks.get(student.id.toString()).value == 0;
   }
 
   filterByName(){

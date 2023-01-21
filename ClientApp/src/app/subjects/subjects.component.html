@@ -1,191 +1,197 @@
 <div *ngIf="this.currentUser">
-<div class="page-header">
+  <div class="page-header">
+    <div class="container">
+      <div class="row align-items-end">
+        <div class="col-3">
+          <h1>Subjects</h1>
+        </div>
+        <div class="col"></div>
+        <div *ngIf="this.currentUser.role == 'Admin'" class="col-3 text-right" style="padding-bottom: 5px;" >
+          <button (click)="displaySubjectCreationForm()" *ngIf="!this.createSubjectStarted" type="button" class="btn btn-success">Create Subject</button>
+          <button (click)="hideSubjectCreationForm()" *ngIf="this.createSubjectStarted" type="button" class="btn btn-danger">Cancel</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div (keyup)="filterByName()" class="form-group">
+            <input class="form-control" type="text" placeholder="Search subject by name" [(ngModel)]="this.searchByName">
+          </div>
+        </div>
+        <div class="col"></div>
+        <div class="col-4 text-right">
+          <div *ngIf="this.currentUser.role == 'Admin'" class="form-group">
+            <input (keyup)="filterByTeacher()" class="form-control" type="text" placeholder="Search subject by teacher" [(ngModel)]="this.searchByTeacher">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="container">
-    <div class="row align-items-end">
-      <div class="col-3">
-        <h1>Subjects</h1>
-      </div>
-      <div class="col"></div>
-      <div *ngIf="this.currentUser.role == 'Admin'" class="col-3 text-right" style="padding-bottom: 5px;" >
-        <button (click)="displaySubjectCreationForm()" *ngIf="!this.createSubjectStarted" type="button" class="btn btn-success">Create Subject</button>
-        <button (click)="hideSubjectCreationForm()" *ngIf="this.createSubjectStarted" type="button" class="btn btn-danger">Cancel</button>
-      </div>
+    <div class="mt-1 mat-elevation-z8">
+      <table mat-table matSort [dataSource]="dataSource" class="demo-table">
+
+        <!--- Note that these columns can be defined in any order.
+    The actual rendered columns are set as a property on the row definition" -->
+        <ng-container matColumnDef="Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Subject Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Teacher">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Teacher </th>
+          <td mat-cell *matCellDef="let element"> {{element.teacherName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="YearOfTeaching">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Year Of Teaching </th>
+          <td mat-cell *matCellDef="let element"> {{element.yearOfTeaching}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Semester">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Semester </th>
+          <td mat-cell *matCellDef="let element"> {{element.semester}} </td>
+        </ng-container>
+
+        <ng-container *ngIf="this.currentUser.role === 'Admin'" matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element"> 
+            <button class="actionButtonDanger" (click) = "deleteSubject(element)">Delete</button> | 
+            <button class="actionButtonPrimary" (click) = "addStudent(element)">Add Student</button> |
+            <button *ngIf="element != this.displayedSubject" class="actionButtonPrimary" (click) = "viewStudents(element)">List Student</button>
+            <button *ngIf="element == this.displayedSubject" class="actionButtonWarning" (click)="hideStudents()">Hide Students</button>
+          </td>
+        </ng-container>
+
+        <ng-container *ngIf="this.currentUser.role === 'Teacher'" matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let element"> 
+            <button *ngIf="element != this.displayedSubject" class="actionButtonPrimary" (click) = "viewStudents(element)">List Student</button>
+            <button *ngIf="element == this.displayedSubject" class="actionButtonDanger" (click)="hideStudents()">Hide Students</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page" z->
+      </mat-paginator>
     </div>
-    <div class="row">
-      <div class="col-4">
-        <div (keyup)="filterByName()" class="form-group">
-          <input class="form-control" type="text" placeholder="Search subject by name" [(ngModel)]="this.searchByName">
+  </div>
+
+  <br><br><br>
+
+  <div *ngIf="this.displayedStudents && this.displayedSubject" class="container">
+    <div class="mt-1 mat-elevation-z8">
+      <table mat-table matSort [dataSource]="displayedStudentsDataSource" class="demo-table">
+
+        <!--- Note that these columns can be defined in any order.
+    The actual rendered columns are set as a property on the row definition" -->
+        <ng-container matColumnDef="Registration Number">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Registration Number </th>
+          <td mat-cell *matCellDef="let element"> {{this.studentsData.get(element.id).registrationNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+          <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Mark">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Mark </th>
+          <td mat-cell *matCellDef="let element"> {{this.getStudentMark(element)}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Class">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Class </th>
+          <td mat-cell *matCellDef="let element"> {{this.studentsData.get(element.id).class}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Phone Number">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </th>
+          <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Actions">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+          <td mat-cell *matCellDef="let element"> 
+            <button *ngIf="this.currentUser.role == 'Admin'" class="actionButtonDanger" (click)="removeStudent(element)">Remove student</button>
+            <button *ngIf="this.currentUser.role == 'Teacher' && this.notGraded(element)" (click)="gradeStudent(element)"  class="actionButtonPrimary">Grade student</button>
+            <button *ngIf="this.currentUser.role == 'Teacher' && !this.notGraded(element)" (click)="removeGrade(element)"  class="actionButtonDanger">Remove grade</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedStudensColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedStudensColumns;"></tr>
+      </table>
+
+      <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page" z->
+      </mat-paginator>
+    </div>
+  </div>
+
+  <br><br><br>
+
+  <div *ngIf="this.createSubjectStarted" class="card">
+    <div class="card-body">
+      <h2 class="card-title">Add subject</h2>
+
+      <form autocomplete="off" novalidate (ngSubmit)="addSubject()">
+
+        <div class="form-group row">
+          <label for="name" class="col-form-label col-sm-2">Name:</label>
+          <div class="col-md-5">
+            <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="this.newSubject.name" type="text" id="name" class="form-control" />
+          </div>
         </div>
-      </div>
-      <div class="col"></div>
-      <div class="col-4 text-right">
-        <div class="form-group">
-          <input (keyup)="filterByTeacher()" class="form-control" type="text" placeholder="Search subject by teacher" [(ngModel)]="this.searchByTeacher">
+
+        <div class="form-group row">
+          <label for="semester" class="col-form-label col-sm-2">Semester:</label>
+          
+          <div style="padding-left: 15px;" class="form-check form-check-inline">
+            <input [(ngModel)]="this.newSubject.semester" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">
+            <label class="form-check-label" for="inlineRadio1">1</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input [(ngModel)]="this.newSubject.semester" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2">
+            <label class="form-check-label" for="inlineRadio2">2</label>
+          </div>
         </div>
-      </div>
+
+        <div class="form-group row">
+          <label for="yot" class="col-form-label col-sm-2">Year Of Teaching:</label>
+          <div class="col-md-5">
+            <select [ngModelOptions]="{standalone: true}" [(ngModel)]="this.newSubject.yearOfTeaching" class="form-control">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <label for="teacher" class="col-form-label col-sm-2">Teacher:</label>
+          <div class="col-md-5">
+            <select [(ngModel)]="this.newSubjectTeacherId" [ngModelOptions]="{standalone: true}" class="form-control">
+              <option *ngFor="let teacher of this.teachers" value="{{teacher.id}}">{{teacher.firstName}} {{teacher.lastName}}</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group row">
+          <div class="col-md-2">
+            <button type="submit" class="btn btn-info">Add subject</button>
+          </div>
+        </div>
+
+      </form>
     </div>
   </div>
 </div>
-
-<div class="container">
-  <div class="mt-1 mat-elevation-z8">
-    <table mat-table matSort [dataSource]="dataSource" class="demo-table">
-
-      <!--- Note that these columns can be defined in any order.
-  The actual rendered columns are set as a property on the row definition" -->
-      <ng-container matColumnDef="Name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Subject Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Teacher">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Teacher </th>
-        <td mat-cell *matCellDef="let element"> {{element.teacherName}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="YearOfTeaching">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Year Of Teaching </th>
-        <td mat-cell *matCellDef="let element"> {{element.yearOfTeaching}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Semester">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Semester </th>
-        <td mat-cell *matCellDef="let element"> {{element.semester}} </td>
-      </ng-container>
-
-      <ng-container *ngIf="this.currentUser.role === 'Admin'" matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element"> 
-          <button class="actionButtonDanger" (click) = "deleteSubject(element)">Delete</button> | 
-          <button class="actionButtonPrimary" (click) = "addStudent(element)">Add Student</button> |
-          <button *ngIf="element != this.displayedSubject" class="actionButtonPrimary" (click) = "viewStudents(element)">List Student</button>
-          <button *ngIf="element == this.displayedSubject" class="actionButtonWarning" (click)="hideStudents()">Hide Students</button>
-        </td>
-      </ng-container>
-
-      <ng-container *ngIf="this.currentUser.role === 'Teacher'" matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef> Actions </th>
-        <td mat-cell *matCellDef="let element"> 
-          <a [title]="StudentsMarks" [routerLink]="['/marksSubject']" [queryParams]="{subjectId:element.id}">Students Marks</a> |
-          <button *ngIf="element != this.displayedSubject" class="actionButtonPrimary" (click) = "viewStudents(element)">List Student</button>
-          <button *ngIf="element == this.displayedSubject" class="actionButtonDanger" (click)="hideStudents()">Hide Students</button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-
-    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page" z->
-    </mat-paginator>
-  </div>
-</div>
-
-<br><br><br>
-
-<div *ngIf="this.displayedStudents && this.displayedSubject" class="container">
-  <div class="mt-1 mat-elevation-z8">
-    <table mat-table matSort [dataSource]="displayedStudentsDataSource" class="demo-table">
-
-      <!--- Note that these columns can be defined in any order.
-  The actual rendered columns are set as a property on the row definition" -->
-      <ng-container matColumnDef="Registration Number">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Registration Number </th>
-        <td mat-cell *matCellDef="let element"> {{this.studentsData.get(element.id).registrationNumber}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Name">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.firstName}} {{element.lastName}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Class">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Class </th>
-        <td mat-cell *matCellDef="let element"> {{this.studentsData.get(element.id).class}}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="Phone Number">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone Number </th>
-        <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Email">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="Actions">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
-        <td mat-cell *matCellDef="let element"> 
-          <button *ngIf="this.currentUser.role == 'Admin'" class="actionButtonDanger" (click)="removeStudent(element)">Remove student</button>
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedStudensColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedStudensColumns;"></tr>
-    </table>
-
-    <mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page" z->
-    </mat-paginator>
-  </div>
-</div>
-
-<br><br><br>
-
-<div *ngIf="this.createSubjectStarted" class="card">
-  <div class="card-body">
-    <h2 class="card-title">Add subject</h2>
-
-    <form autocomplete="off" novalidate (ngSubmit)="addSubject()">
-
-      <div class="form-group row">
-        <label for="name" class="col-form-label col-sm-2">Name:</label>
-        <div class="col-md-5">
-          <input  [ngModelOptions]="{standalone: true}" [(ngModel)]="this.newSubject.name" type="text" id="name" class="form-control" />
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="semester" class="col-form-label col-sm-2">Semester:</label>
-        
-        <div style="padding-left: 15px;" class="form-check form-check-inline">
-          <input [(ngModel)]="this.newSubject.semester" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="1">
-          <label class="form-check-label" for="inlineRadio1">1</label>
-        </div>
-        <div class="form-check form-check-inline">
-          <input [(ngModel)]="this.newSubject.semester" class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="2">
-          <label class="form-check-label" for="inlineRadio2">2</label>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="yot" class="col-form-label col-sm-2">Year Of Teaching:</label>
-        <div class="col-md-5">
-          <select [ngModelOptions]="{standalone: true}" [(ngModel)]="this.newSubject.yearOfTeaching" class="form-control">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <label for="teacher" class="col-form-label col-sm-2">Teacher:</label>
-        <div class="col-md-5">
-          <select [(ngModel)]="this.newSubjectTeacherId" [ngModelOptions]="{standalone: true}" class="form-control">
-            <option *ngFor="let teacher of this.teachers" value="{{teacher.id}}">{{teacher.firstName}} {{teacher.lastName}}</option>
-          </select>
-        </div>
-      </div>
-
-      <div class="form-group row">
-        <div class="col-md-2">
-          <button type="submit" class="btn btn-info">Add subject</button>
-        </div>
-      </div>
-
-    </form>
-  </div>
-</div>
-

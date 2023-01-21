@@ -37,6 +37,13 @@ namespace Catalog_Online.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("{subjectId}/{studentId}")]
+        public IActionResult RemoveMark(int subjectId, int studentId)
+        {
+            _markService.RemoveMark(subjectId, studentId);
+            return Ok();
+        }
+
         [HttpGet("{email}")]
         public ActionResult<User> GetUserByEmail(string email)
         {
@@ -51,6 +58,7 @@ namespace Catalog_Online.Controllers
         {
             return _markService.GetMarksByUserId(id);
         }
+
 
         [Authorize]
         [HttpGet("subject")]
@@ -67,13 +75,18 @@ namespace Catalog_Online.Controllers
             var user = _userService.GetUserByEmail(email);
             return _markService.GetSubjectsByCurrentTeacher(user);
         }
-
-        
        
         [HttpGet("marksSubject/{subjectId:int}")]
         public ActionResult<List<GetMarksBySubjectDto>> GetMarksByCurrentSubjectId(int subjectId)
         {
             return _markService.GetMarksByCurrentSubjectId(subjectId);
         }
+
+        [HttpGet("all")]
+        public ActionResult<List<Mark>> GetAllMarks()
+        {
+            return _markService.GetAllMarks();
+        }
+
     }
 }
