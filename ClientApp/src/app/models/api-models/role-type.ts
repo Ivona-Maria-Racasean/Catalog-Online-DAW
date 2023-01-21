@@ -1,6 +1,10 @@
 export enum RoleType {
-  admin = "Admin",
-  secretary ="Secretary",
   student ="Student",
-  teacher ="Teacher"
+  studentId = 1,
+  teacher ="Teacher",
+  teacherId = 2,
+  secretary ="Secretary",
+  secretaryId = 3,
+  admin = "Admin",
+  adminId = 4
 }

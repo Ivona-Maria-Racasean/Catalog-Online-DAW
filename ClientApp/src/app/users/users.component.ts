@@ -5,16 +5,11 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
-import { MatDialog } from "@angular/material";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { ActivatedRoute, Router } from "@angular/router";
-import { UpdateUserData } from "app/interfaces/user/UpdateUserDto.model";
 import { UserForRegistrationDto } from "app/interfaces/user/UserForRegistrationDto.model";
-import { UserTeacherForRegistrationDto } from "app/interfaces/user/UserTeacherForRegistrationDto.model";
 import { User } from "app/models/ui-models/user.model";
-import { AuthenticationService } from "app/shared/services/authentication.service";
-import { UpdateUserComponent } from "app/update-user/update-user.component";
 import Swal from "sweetalert2";
 import { UsersService } from "./users.service";
 
@@ -27,24 +22,20 @@ export class UsersComponent implements OnInit {
   public errorMessage: string = "";
   public showError: boolean;
 
+  displayedUsers: User[] = [];
+  selectedRole: string;
+  
   id: number;
 
-  user: User[] = [];
+  users: User[] = [];
   userForm: FormGroup = new FormGroup({
     firstName: new FormControl(""),
     lastName: new FormControl(""),
     email: new FormControl("", [Validators.required, Validators.email]),
+    role : new FormControl("0", [Validators.required]),
     address: new FormControl(""),
     phoneNumber: new FormControl(""),
     password: new FormControl("", [Validators.required]),
-  });
-  userFromTeacher: FormGroup = new FormGroup({
-    firstNameTeacher: new FormControl(""),
-    lastNameTeacher: new FormControl(""),
-    emailTeacher: new FormControl("", [Validators.required, Validators.email]),
-    addressTeacher: new FormControl(""),
-    phoneNumberTeacher: new FormControl(""),
-    passwordTeacher: new FormControl("", [Validators.required]),
   });
 
   displayedColumns: string[] = [
@@ -69,12 +60,12 @@ export class UsersComponent implements OnInit {
 
 
   ngOnInit(): void {
-
     this.userService.GetAllUserData().subscribe(
       (successResponse) => {
-        this.user = successResponse;
-        //console.log(this.students)
-        this.dataSource = new MatTableDataSource<User>(this.user);
+        this.selectedRole = "Select role to display"
+        this.users = successResponse;
+        this.displayedUsers = this.users;
+        this.dataSource = new MatTableDataSource<User>(this.displayedUsers);
 
         if (this.matPaginator) {
           this.dataSource.paginator = this.matPaginator;
@@ -97,6 +88,21 @@ export class UsersComponent implements OnInit {
     return this.userForm.controls[controlName].hasError(errorName);
   }
 
+  public roleChange = () => {
+    if(this.selectedRole === "Select role to display"){
+      this.displayedUsers = this.users;
+      this.dataSource = new MatTableDataSource<User>(this.displayedUsers);
+    }
+    else{
+      this.displayedUsers = this.users.filter(user => {
+        console.log(this.selectedRole)
+        console.log(user) 
+        return this.selectedRole == user.role
+      });
+      this.dataSource = new MatTableDataSource<User>(this.displayedUsers);
+    }
+  }
+
   public Register = (registerFormValue) => {
     this.showError = false;
 
@@ -105,62 +111,14 @@ export class UsersComponent implements OnInit {
       firstName: formValues.firstName,
       lastName: formValues.lastName,
       email: formValues.email,
+      roleId: formValues.role,
       address: formValues.address,
       phoneNumber: formValues.phoneNumber,
       password: formValues.password,
     };
+    console.log(user)
+  
     this.userService.Register(user).subscribe(
-      (_) => {
-        Swal.fire({
-          icon: "success",
-          title: "Your account has been created",
-          showConfirmButton: true,
-        }).then((result) => {
-          this._router.navigate(["/"]);
-        });
-      },
-      (error) => {
-        if (error.error.errors) {
-          this.showError = true;
-          this.errorMessage = error.error.errors;
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Something went wrong!",
-            footer: "Please try again later!",
-          });
-        }
-      }
-    );
-  };
-
-  /// Teacher
-
-  public validateControlTeacher(controlName: string) {
-    return (
-      this.userFromTeacher.controls[controlName].invalid &&
-      this.userFromTeacher.controls[controlName].touched
-    );
-  }
-
-  public hasErrorTeacher(controlName: string, errorName: string) {
-    return this.userFromTeacher.controls[controlName].hasError(errorName);
-  }
-
-  public RegisterTeacher = (registerFormValue) => {
-    this.showError = false;
-
-    const formValues = { ...registerFormValue };
-    const teacher: UserTeacherForRegistrationDto = {
-      firstNameTeacher: formValues.firstNameTeacher,
-      lastNameTeacher: formValues.lastNameTeacher,
-      emailTeacher: formValues.emailTeacher,
-      addressTeacher: formValues.addressTeacher,
-      phoneNumberTeacher: formValues.phoneNumberTeacher,
-      passwordTeacher: formValues.passwordTeacher,
-    };
-    this.userService.RegisterTeacher(teacher).subscribe(
       (_) => {
         Swal.fire({
           icon: "success",

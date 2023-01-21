@@ -1,0 +1,56 @@
+.demo-table {
+    width: 100%;
+  }
+  
+  .mat-mdc-row .mat-mdc-cell {
+    border-bottom: 1px solid transparent;
+    border-top: 1px solid transparent;
+    cursor: pointer;
+  }
+  
+  .mat-mdc-row:hover .mat-mdc-cell {
+    border-color: currentColor;
+  }
+  
+  .demo-row-is-clicked {
+    font-weight: bold;
+  }
+  
+  .actionButtonDanger{
+    border: none;
+    background-color: inherit;
+    color: rgb(255, 70, 70);
+  }
+
+  .actionButtonDanger:hover{
+    color: red;
+    text-decoration: underline;
+  }
+
+  .actionButtonPrimary{
+    border: none;
+    background-color: inherit;
+    color: rgb(70, 144, 255);
+  }
+
+  .actionButtonPrimary:hover{
+    color: rgb(0, 102, 255);
+    text-decoration: underline;
+  }
+
+  .actionButtonDanger{
+    border: none;
+    background-color: inherit;
+    color: rgb(255, 180, 89);
+  }
+
+  .actionButtonDanger:hover{
+    color: darkorange;
+    text-decoration: underline;
+  }
+
+  .studentListingHeader{
+    border-style: solid;
+    border: 10px;
+    border-color: black;
+  }

@@ -63,11 +63,11 @@ namespace Catalog_Online.Managers
 
                 UserRolDto listing = new()
                 {
-                    RolId = RolData.Id,
+                    RoleId = RolData.Id,
                     UserId = users[i].Id,
                     FirstName = users[i].FirstName,
                     LastName = users[i].LastName,
-                    Rol = RolData.Name,
+                    Role = RolData.Name,
                     Email = users[i].Email,
                     Address = users[i].Address,
                     PhoneNumber = users[i].PhoneNumber,

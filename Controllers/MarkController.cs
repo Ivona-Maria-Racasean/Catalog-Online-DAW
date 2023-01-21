@@ -52,7 +52,7 @@ namespace Catalog_Online.Controllers
             return _markService.GetMarksByUserId(id);
         }
 
-       // [Authorize]
+        [Authorize]
         [HttpGet("subject")]
         public ActionResult<List<Subject>> GetSubjectsByCurrentTeacher()
         {

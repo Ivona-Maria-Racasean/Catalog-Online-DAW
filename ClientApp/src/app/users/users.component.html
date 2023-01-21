@@ -5,6 +5,24 @@
 </div>
 
 <div class="container">
+
+
+  <div class="row">
+    <div class="col-3">
+      <div class="form-group">
+        <select (change)="roleChange()" class="form-control" [(ngModel)]="selectedRole">
+            <option>Select role to display</option>
+            <option>Student</option>
+            <option>Teacher</option>
+            <option>Secretary</option>
+            <option>Admin</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+
+
   <div class="mt-1">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
 
@@ -23,7 +41,7 @@
       <!-- Role Column -->
       <ng-container matColumnDef="rol">
         <th mat-header-cell *matHeaderCellDef> Role </th>
-        <td mat-cell *matCellDef="let element"> {{element.rol}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.role}} </td>
       </ng-container>
 
       <!-- Email Column -->
@@ -68,7 +86,7 @@
 
 <div class="card">
   <div class="card-body">
-    <h1 class="card-title">Add Students</h1>
+    <h1 class="card-title">Add User</h1>
 
     <div *ngIf="showError" class="alert alert-danger" role="alert">
       <div *ngFor="let err of errorMessage">
@@ -106,6 +124,21 @@
         </div>
       </div>
 
+      <div class="form-group row">
+        <label for="role" class="col-form-label col-sm-2">Role:</label>
+        <div class="col-md-5">
+          <select class="form-control" id="role" for="role" formControlName="role">
+            <option value="1">Student</option>
+            <option value="2">Teacher</option>
+            <option value="3">Secretary</option>
+            <option value="4">Admin</option>
+        </select>
+        </div>
+        <div class="col-md-5">
+          <em *ngIf="validateControl('role') && hasError('role', 'required')">Please select a role</em>
+        </div>
+      </div>
+
 
       <div class="form-group row">
         <label for="address" class="col-form-label col-sm-2">Address:</label>
@@ -137,87 +170,7 @@
 
       <div class="form-group row">
         <div class="col-md-1">
-          <button type="submit" class="btn btn-info">Add Students</button>
-        </div>
-      </div>
-
-    </form>
-  </div>
-</div>
-
-<br><br>
-<div class="card">
-  <div class="card-body">
-    <h1 class="card-title">Add Teacher</h1>
-
-    <div *ngIf="showError" class="alert alert-danger" role="alert">
-      <div *ngFor="let err of errorMessage">
-        <span>{{err}}</span>
-        <br />
-      </div>
-    </div>
-
-    <form [formGroup]="userFromTeacher" autocomplete="off" novalidate (ngSubmit)="RegisterTeacher(userFromTeacher.value)">
-
-      <div class="form-group row">
-        <label for="firstNameTeacher" class="col-form-label col-sm-2">First Name:</label>
-        <div class="col-md-5">
-          <input type="text" id="firstNameTeacher" formControlName="firstNameTeacher" class="form-control" />
-        </div>
-      </div>
-
-
-      <div class="form-group row">
-        <label for="lastNameTeacher" class="col-form-label col-sm-2">Last Name:</label>
-        <div class="col-md-5">
-          <input type="text" id="lastNameTeacher" formControlName="lastNameTeacher" class="form-control" />
-        </div>
-      </div>
-
-
-      <div class="form-group row">
-        <label for="emailTeacher" class="col-form-label col-sm-2">Email:</label>
-        <div class="col-md-5">
-          <input type="email" id="emailTeacher" formControlName="emailTeacher" class="form-control" />
-        </div>
-        <div class="col-md-5">
-          <em *ngIf="validateControlTeacher('emailTeacher') && hasErrorTeacher('emailTeacher', 'email')">Please provide a valid email</em>
-          <em *ngIf="validateControlTeacher('emailTeacher') && hasErrorTeacher('emailTeacher', 'required')">Email is required</em>
-        </div>
-      </div>
-
-
-      <div class="form-group row">
-        <label for="addressTeacher" class="col-form-label col-sm-2">Address:</label>
-        <div class="col-md-5">
-          <input type="text" id="addressTeacher" formControlName="addressTeacher" class="form-control" />
-        </div>
-      </div>
-
-
-      <div class="form-group row">
-        <label for="phoneNumberTeacher" class="col-form-label col-sm-2">Phone number:</label>
-        <div class="col-md-5">
-          <input type="tel" id="phoneNumberTeacher" formControlName="phoneNumberTeacher" class="form-control" />
-        </div>
-      </div>
-
-
-      <div class="form-group row">
-        <label for="passwordTeacher" class="col-form-label col-sm-2">Password:</label>
-        <div class="col-md-5">
-          <input type="password" id="passwordTeacher" formControlName="passwordTeacher" class="form-control" />
-        </div>
-        <div class="col-md-5">
-          <em *ngIf="validateControlTeacher('passwordTeacher') && hasErrorTeacher('passwordTeacher', 'required')">Password is required</em>
-        </div>
-      </div>
-
-      <br>
-
-      <div class="form-group row">
-        <div class="col-md-1">
-          <button type="submit" class="btn btn-info">Add Teacher</button>
+          <button type="submit" class="btn btn-info">Register</button>
         </div>
       </div>
 

@@ -23,7 +23,7 @@ namespace Catalog_Online.Controllers
         }
 
         [HttpPost]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult<User> Register([FromBody] RegisterDto registerDto)
         {
           
@@ -35,28 +35,7 @@ namespace Catalog_Online.Controllers
                 PhoneNumber = registerDto.PhoneNumber,
                 Password = registerDto.Password,
                 Address = registerDto.Address,
-                RoleId = 4,
-            };
-
-            var result = _userService.RegisterUser(user);
-
-            return Ok(result);
-        }
-
-        [HttpPost("teacher")]
-        //[Authorize(Roles = "Admin")]
-        public ActionResult<User> RegisterTeacher([FromBody] InsertTeacherDto insertTeacher)
-        {
-
-            User user = new()
-            {
-                FirstName = insertTeacher.FirstNameTeacher,
-                LastName = insertTeacher.LastNameTeacher,
-                Email = insertTeacher.EmailTeacher,
-                PhoneNumber = insertTeacher.PhoneNumberTeacher,
-                Password = insertTeacher.PasswordTeacher,
-                Address = insertTeacher.AddressTeacher,
-                RoleId = 3,
+                RoleId = registerDto.RoleId
             };
 
             var result = _userService.RegisterUser(user);

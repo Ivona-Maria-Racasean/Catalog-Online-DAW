@@ -9,5 +9,5 @@ export interface User {
   lastName: string,
   address: string,
   phoneNumber: string,
-  rol: Rol,
+  role: string,
 }
