@@ -29,6 +29,7 @@ import { MessageFormComponent } from './message-form/message-form.component';
 import { MarksSubjectListComponent } from './marks-subject-list/marks-subject-list.component';
 import { UpdateUserComponent } from './update-user/update-user.component';
 import { MessageDisplayComponent } from './message-display/message-display.component';
+import { AcademicTranscriptComponent } from './academic-transcript/academic-transcript.component';
 
 
 
@@ -51,7 +52,8 @@ export function tokenGetter() {
     SubjectsComponent,
     MarksSubjectListComponent,
     UpdateUserComponent,
-    MessageDisplayComponent
+    MessageDisplayComponent,
+    AcademicTranscriptComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -73,7 +75,8 @@ export function tokenGetter() {
       { path: 'subjects', component: SubjectsComponent },
       { path: 'marksSubject', component: MarksSubjectListComponent },
       { path: 'updateUser', component: UpdateUserComponent },
-      { path: 'messages', component: MessageDisplayComponent }
+      { path: 'messages', component: MessageDisplayComponent },
+      {path: "transcript", component: AcademicTranscriptComponent}
     ]),
     BrowserAnimationsModule,
     JwtModule.forRoot({

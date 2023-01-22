@@ -1,6 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { User } from 'app/models/api-models/user.model';
 import { StudentData } from 'app/models/ui-models/studentData.model';
 import { SubjectStudents } from 'app/models/ui-models/subjectStudents';
 import { Observable } from 'rxjs';

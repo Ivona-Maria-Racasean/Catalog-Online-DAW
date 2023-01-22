@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-
-namespace Catalog_Online.Models.Entity
+﻿namespace Catalog_Online.Models.Dtos.Transcript
 {
-    public class Subject
+    public class GradedSubjects
     {
         public int Id { get; set; }
         public int TeacherId { get; set; }
@@ -11,5 +8,6 @@ namespace Catalog_Online.Models.Entity
         public string Semester { get; set; }
         public int YearOfTeaching { get; set; }
         public string TeacherName { get; set; }
+        public float Grade { get; set; }
     }
 }

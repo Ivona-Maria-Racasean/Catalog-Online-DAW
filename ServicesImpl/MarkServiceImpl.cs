@@ -61,9 +61,7 @@ namespace Catalog_Online.ServicesImpl
 
         public List<Subject> GetSubjectsByCurrentTeacher(User user)
         {
-            
-            var teacherName = user.FirstName+user.LastName;
-            List<Subject> subjects = _context.Subjects.Where(s => s.TeacherName == teacherName).ToList();
+            List<Subject> subjects = _context.Subjects.Where(s => s.TeacherId == user.Id).ToList();
             return subjects;
         }
 

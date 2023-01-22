@@ -68,6 +68,7 @@ export class SubjectsComponent implements OnInit {
       this.subjects = await this.subjectService.GetAllSubjects().toPromise();
     } else{
       this.subjects = await this.subjectService.GetSubjectsByTeacherName().toPromise();
+      console.log(this.subjects)
     }
 
     this.dataSource = new MatTableDataSource<Subject>(this.subjects);

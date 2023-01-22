@@ -13,7 +13,7 @@
             <a class="nav-link text-dark" [routerLink]="['/login']">Login</a>
           </li>
 
-          <li *ngIf="this.isUserAuthenticated &&  (this.currentUser.role == 'Secretary' || this.currentUser.role == 'Admin' || this.currentUser.role == 'Student')" class="nav-item active" [routerLinkActive]="['link-active']">
+          <li *ngIf="this.isUserAuthenticated &&  (this.currentUser.role == 'Secretary' || this.currentUser.role == 'Admin')" class="nav-item active" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/catalogues']">Catalogues</a>
           </li>
           <li *ngIf="this.isUserAuthenticated  && this.currentUser.role == 'Admin'" class="nav-item active" [routerLinkActive]="['link-active']">
@@ -25,7 +25,10 @@
           <li *ngIf="this.isUserAuthenticated && this.currentUser.role == 'Teacher'" class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/messages']">My messages</a>
           </li>
-          <li *ngIf="this.isUserAuthenticated && (this.currentUser.role == 'Secretary' || this.currentUser.role == 'Admin' || this.currentUser.role == 'Teacher' || this.currentUser.role == 'Student')" class="nav-item" [routerLinkActive]="['link-active']">
+          <li *ngIf="this.isUserAuthenticated && (this.currentUser.role == 'Student')" class="nav-item" [routerLinkActive]="['link-active']">
+            <a class="nav-link text-dark" [routerLink]="['/transcript']">Transcript</a>
+          </li>
+          <li *ngIf="this.isUserAuthenticated && (this.currentUser.role == 'Admin' || this.currentUser.role == 'Teacher')" class="nav-item" [routerLinkActive]="['link-active']">
             <a class="nav-link text-dark" [routerLink]="['/subjects']">Subjects</a>
           </li>
           <li *ngIf="this.isUserAuthenticated && (this.currentUser.role == 'Secretary' || this.currentUser.role == 'Admin')" class="nav-item" [routerLinkActive]="['link-active']">

@@ -119,7 +119,6 @@ namespace Catalog_Online.Controllers
             
             var user = _userService.GetUserByEmail(email);
 
-            // Sa vorbesc cu Flori de ce fielduri are nevoie 
             return Ok(new
             {
                 id = user.Id,
