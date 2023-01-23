@@ -127,7 +127,7 @@
       <div class="form-group row">
         <label for="role" class="col-form-label col-sm-2">Role:</label>
         <div class="col-md-5">
-          <select class="form-control" id="role" for="role" formControlName="role">
+          <select (change)="onRoleChange()" [(ngModel)]="this.newUserRole" class="form-control" id="role" for="role" formControlName="role">
             <option value="1">Student</option>
             <option value="2">Teacher</option>
             <option value="3">Secretary</option>
@@ -155,6 +155,26 @@
         </div>
       </div>
 
+      <div *ngIf="this.newUserRole == '1'" class="form-group row">
+        <label for="registrationNumber" class="col-form-label col-sm-2">Register number:</label>
+        <div class="col-md-5">
+          <input type="text" id="registrationNumber" formControlName="registrationNumber" class="form-control" />
+        </div>
+      </div>
+
+      <div *ngIf="this.newUserRole == '1'" class="form-group row">
+        <label for="yearOfStudy" class="col-form-label col-sm-2">Year of study:</label>
+        <div class="col-md-5">
+          <input type="text" id="yearOfStudy" formControlName="yearOfStudy" class="form-control" />
+        </div>
+      </div>
+
+      <div *ngIf="this.newUserRole == '1'" class="form-group row">
+        <label for="class" class="col-form-label col-sm-2">Class:</label>
+        <div class="col-md-5">
+          <input type="text" id="registerNumber" formControlName="class" class="form-control" />
+        </div>
+      </div>
 
       <div class="form-group row">
         <label for="password" class="col-form-label col-sm-2">Password:</label>
@@ -163,6 +183,15 @@
         </div>
         <div class="col-md-5">
           <em *ngIf="validateControl('password') && hasError('password', 'required')">Password is required</em>
+        </div>
+      </div>
+
+      <br>
+
+      <div *ngIf="this.displayValidationErrors">
+        <div *ngFor="let error of this.validationErrors">
+          <em style="color: red;">{{error}}</em>
+          <br>
         </div>
       </div>
 
@@ -178,4 +207,5 @@
   </div>
 </div>
 
+<br><br><br><br>
 

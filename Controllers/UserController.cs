@@ -16,10 +16,12 @@ namespace Catalog_Online.Controllers
     public class UserController : ControllerBase
     {
         IUserService _userService;
+        IStudentDataService _studentDataService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IStudentDataService studentDataService)
         {
             _userService = userService;
+            _studentDataService = studentDataService;
         }
 
         [HttpPost]
@@ -39,6 +41,16 @@ namespace Catalog_Online.Controllers
             };
 
             var result = _userService.RegisterUser(user);
+
+            if(user.RoleId == 1)
+            {
+                StudentData studentData= new StudentData();
+                studentData.UserId = result.Id;
+                studentData.Class = registerDto.Class;
+                studentData.RegistrationNumber = registerDto.RegistrationNumber;
+                studentData.YearOfStudying = registerDto.YearOfStudy;
+                _studentDataService.AddStudentData(studentData);
+            }
 
             return Ok(result);
         }

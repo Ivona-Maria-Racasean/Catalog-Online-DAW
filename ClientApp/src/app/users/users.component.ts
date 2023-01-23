@@ -22,6 +22,10 @@ export class UsersComponent implements OnInit {
   public errorMessage: string = "";
   public showError: boolean;
 
+  displayValidationErrors: boolean;
+  validationErrors: string[];
+  
+  newUserRole: string;
   displayedUsers: User[] = [];
   selectedRole: string;
   
@@ -32,7 +36,10 @@ export class UsersComponent implements OnInit {
     firstName: new FormControl(""),
     lastName: new FormControl(""),
     email: new FormControl("", [Validators.required, Validators.email]),
-    role : new FormControl("0", [Validators.required]),
+    role : new FormControl("1", [Validators.required]),
+    registrationNumber: new FormControl(""),
+    yearOfStudy: new FormControl(""),
+    class: new FormControl(""),
     address: new FormControl(""),
     phoneNumber: new FormControl(""),
     password: new FormControl("", [Validators.required]),
@@ -60,9 +67,14 @@ export class UsersComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.newUserRole = "1"
+    this.selectedRole = "Select role to display"
+
+    this.displayValidationErrors = false;
+    this.validationErrors;
+
     this.userService.GetAllUserData().subscribe(
       (successResponse) => {
-        this.selectedRole = "Select role to display"
         this.users = successResponse;
         this.displayedUsers = this.users;
         this.dataSource = new MatTableDataSource<User>(this.displayedUsers);
@@ -95,8 +107,6 @@ export class UsersComponent implements OnInit {
     }
     else{
       this.displayedUsers = this.users.filter(user => {
-        console.log(this.selectedRole)
-        console.log(user) 
         return this.selectedRole == user.role
       });
       this.dataSource = new MatTableDataSource<User>(this.displayedUsers);
@@ -105,18 +115,28 @@ export class UsersComponent implements OnInit {
 
   public Register = (registerFormValue) => {
     this.showError = false;
+    this.displayValidationErrors = false;
 
+    var errorList: string[] = this.validateFormValues(registerFormValue)
+    if(errorList.length != 0){
+      this.displayValidationErrors = true;
+      this.validationErrors = errorList;
+      return;
+    }
+    
     const formValues = { ...registerFormValue };
     const user: UserForRegistrationDto = {
       firstName: formValues.firstName,
       lastName: formValues.lastName,
       email: formValues.email,
       roleId: formValues.role,
+      registrationNumber: formValues.registrationNumber,
+      yearOfStudy: formValues.yearOfStudy,
+      class: formValues.class,
       address: formValues.address,
       phoneNumber: formValues.phoneNumber,
       password: formValues.password,
     };
-    console.log(user)
   
     this.userService.Register(user).subscribe(
       (_) => {
@@ -143,4 +163,59 @@ export class UsersComponent implements OnInit {
       }
     );
   };
+
+  validateFormValues(formValues): string[]{
+    var errorList: string[] = new Array();
+
+    if(formValues.firstName === ""){
+      errorList.push("First name can't be empty");
+    }
+    if(formValues.lastName === ""){
+      errorList.push("Last name can't be empty")
+    }
+    
+    if(formValues.email===""){
+      errorList.push("Email can't be empty")
+    }
+    
+    if(formValues.role===""){
+      errorList.push("Role must be set to one of the 4 values: Student, Teacher, Admin, Secretary")
+    }
+    
+
+    if(formValues.role === "1"){
+      if(formValues.registrationNumber === ""){
+        errorList.push("Registration number can't be empty")
+      }
+      
+      if(formValues.yearOfStudy === ""){
+        errorList.push("Year of study can't be empty")
+      }
+      
+      if(formValues.class === ""){
+        errorList.push("Class can't be empty")
+      }
+    }
+    
+    if(formValues.address===""){
+      errorList.push("Address can't be empty")
+    }
+    
+    if(formValues.phoneNumber===""){
+      errorList.push("Phone number can't be empty")
+    }
+    
+    if(formValues.password===""){
+      errorList.push("Password can't be empty")
+    }
+
+    return errorList;
+  }
+
+  onRoleChange(){
+    this.userForm.controls["class"].reset("");
+    this.userForm.controls["registrationNumber"].reset("");
+    this.userForm.controls["yearOfStudy"].reset("");
+  }
+
 }

@@ -3,6 +3,9 @@ export interface UserForRegistrationDto {
   lastName: string;
   email: string;
   roleId: string;
+  registrationNumber: string,
+  yearOfStudy: string,
+  class: string,
   password: string;
   address: string;
   phoneNumber: number;

@@ -68,7 +68,6 @@ export class SubjectsComponent implements OnInit {
       this.subjects = await this.subjectService.GetAllSubjects().toPromise();
     } else{
       this.subjects = await this.subjectService.GetSubjectsByTeacherName().toPromise();
-      console.log(this.subjects)
     }
 
     this.dataSource = new MatTableDataSource<Subject>(this.subjects);
@@ -192,6 +191,7 @@ export class SubjectsComponent implements OnInit {
         async _res =>{
           this.subjectToStudents = await this.subjectService.GetSubjectsStudents().toPromise();
           if(this.displayedSubject){
+            this.studentsMarks = await this.markService.getAllMarks().toPromise();
             this.viewStudents(this.displayedSubject)
           }
         Swal.fire({

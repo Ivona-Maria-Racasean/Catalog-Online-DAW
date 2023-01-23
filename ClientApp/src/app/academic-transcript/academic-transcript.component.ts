@@ -4,6 +4,7 @@ import { CurrentUser } from 'app/models/ui-models/currentUser.model';
 import { GradedSubject } from 'app/models/ui-models/transcript/gradedSubject.model';
 import { Transcript } from 'app/models/ui-models/transcript/transcript.model';
 import { AuthenticationService } from 'app/shared/services/authentication.service';
+import jsPDF from 'jspdf';
 import { TranscriptService } from './transcript.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class AcademicTranscriptComponent implements OnInit {
 
   selectedYear: string;
   orderingMethod: string;
+  canGeneratePdf: boolean
 
   displayedColumns: string[] = ['Name', 'Semester', 'Teacher Name', 'Grade'];
   dataSource: MatTableDataSource<GradedSubject> = new MatTableDataSource<GradedSubject>();
@@ -32,6 +34,7 @@ export class AcademicTranscriptComponent implements OnInit {
     this.transcript = await this.transcriptService.GetTranscript().toPromise();
     this.selectedYear = "0"
     this.orderingMethod = "0"
+    this.canGeneratePdf = this.canGenerateCertificatePDF();
   }
 
   yearChange(){
@@ -99,6 +102,40 @@ export class AcademicTranscriptComponent implements OnInit {
     });
 
     return newObj;
+  }
+
+  canGenerateCertificatePDF(): boolean{
+    switch(Number(this.transcript.enrolmentData.yearOfStudying)){
+      case 1:
+        return this.transcript.firstYearSubjects.length != 0;
+      case 2:
+        return this.transcript.secondYearSubjects.length != 0;
+      case 3:
+        return this.transcript.thirdYearSubjects.length != 0;
+      case 4:
+        return this.transcript.fourthYearSubjects.length != 0;
+    }
+  }
+
+  generateCertificate(){
+    var doc = new jsPDF()
+    doc.text(`Se acorda studentului ${this.currentUser.firstName} ${this.currentUser.lastName}, cu numarul de inregistrare ${this.transcript.enrolmentData.registrationNumber} in`, 20, 50);
+    doc.text(`anul ${this.transcript.enrolmentData.yearOfStudying} de studiu, la grupa ${this.transcript.enrolmentData.class} cu scopul de a dovedi ca acesta este inscris la`, 8, 57);
+    doc.text(`un program de studiu al Facultatii de Matematica Informatica.`, 8, 64)
+    
+    doc.text("Data:", 20, 90)
+    doc.text(`${new Date().getDate()}.0${new Date().getMonth() + 1}.${new Date().getFullYear()}`, 20, 97)
+
+    doc.setFontSize(10)
+    doc.text("Facultatea de Matematica si Informatica", 8, 7)
+    doc.text("Universitatea din Bucuresti", 150, 7)    
+
+
+
+    doc.setFontSize(22)
+    doc.text("Adeverinta de student", 65, 25)
+
+    doc.save(`Adeverinta - ${this.currentUser.firstName} ${this.currentUser.lastName}`)
   }
 
 }

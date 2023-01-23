@@ -16,3 +16,7 @@
     font-weight: bold;
   }
   
+  .studentInfoContainer{
+    border-style: solid;
+    border: 2px;
+  }
