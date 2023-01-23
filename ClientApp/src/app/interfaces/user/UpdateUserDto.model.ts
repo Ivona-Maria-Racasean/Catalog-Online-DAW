@@ -3,5 +3,5 @@ export interface UpdateUserData {
   lastName: string;
   email: string;
   address: string;
-  phoneNumber: number;
+  phoneNumber: string;
 }

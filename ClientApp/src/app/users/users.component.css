@@ -15,3 +15,14 @@
 .demo-row-is-clicked {
   font-weight: bold;
 }
+
+.actionButtonDanger{
+  border: none;
+  background-color: inherit;
+  color: rgb(255, 70, 70);
+}
+
+.actionButtonDanger:hover{
+  color: red;
+  text-decoration: underline;
+}

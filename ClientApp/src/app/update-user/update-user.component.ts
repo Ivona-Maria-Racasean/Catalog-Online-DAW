@@ -1,20 +1,12 @@
 import { Component, Inject, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
-import { UpdateUser } from "app/models/ui-models/updateUser.model";
+import { UpdateUserData } from "app/interfaces/user/UpdateUserDto.model";
+import { StudentData } from "app/models/ui-models/studentData.model";
+import { User } from "app/models/ui-models/user.model";
+import Swal from "sweetalert2";
 
 import { UpdateUserService } from "./update-user.service";
-
-
-export class UserClass {
-  email: string;
-  firstName: string;
-  lastName: string;
-  address: string;
-  phoneNumber: string;
-
-}
-
 
 @Component({
   selector: "app-update-user",
@@ -23,58 +15,47 @@ export class UserClass {
 })
 export class UpdateUserComponent implements OnInit {
 
-  user:UserClass;
+  user: User;
   editForm: FormGroup;
   userId: number;
+  studentData: StudentData;
 
   constructor(
-    private fb: FormBuilder,
-    private update_user: UpdateUserService,
-    //public dialog: MatDialog,
+    private updateService: UpdateUserService,
     @Inject(Router) private _router: Router,
     @Inject(ActivatedRoute) private _activatedroute: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.userId = this._activatedroute.snapshot.queryParams.id;
-    console.log(this.userId);
-    this.update_user.getUserById(this.userId).subscribe((res) => {
-      console.log(Object.values(res));
-      var dataUser = Object.values(res);
-      // console.log(dataUser.length)
-      this.editForm.patchValue({
-        firstName: dataUser[2],
-        lastName: dataUser[3],
-        email: dataUser[4],
-        address: dataUser[5],
-        phoneNumber: dataUser[6],
-      });
-      console.log("form", this.editForm)
-    });
-
-
-    this.editForm = this.fb.group({
-      firstName: ["", Validators.required],
-      lastName: ["", Validators.required],
-      email: ["", Validators.required, Validators.email],
-      address: ["", Validators.required],
-      phoneNumber: ["", Validators.required],
-    });
-
-    this.update_user.DeleteUserData(this.userId).subscribe((data) =>{
-      console.log(data);
-
-    });
+    this.user = await this.updateService.getUserById(this.userId).toPromise();
+    if(this.user.roleId == "1"){
+      this.studentData = await this.updateService.GetStudentData(this.userId).toPromise();
+    } else{
+      const data: StudentData = {
+        id: "",
+        userId: this.user.id, 
+        class: "",
+        registrationNumber: "",
+        yearOfStudying: "",
+        subjects: undefined,
+        user: undefined
+      }
+      this.studentData = data
+    }
   }
 
-  onSubmit() {
-    this.update_user.UpdateUserData(this.userId, this.user).subscribe((res) => {
-      this.user = new UserClass();
-      this.gotoList();
-    });
-  }
-
-  gotoList() {
-    this._router.navigate(['/api/users']);
+  submitUpdate(){
+    const updatedUserData: UpdateUserData = {...this.user}
+    console.log(updatedUserData)
+    this.updateService.UpdateUserData(this.userId, updatedUserData).subscribe(res => {
+      Swal.fire({
+        icon: "success",
+        title: "Success",
+        text: "User was updated successfuly!"
+      }).then(_ =>{
+        this._router.navigate(['/users'])
+      })
+    })
   }
 }

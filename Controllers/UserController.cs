@@ -69,6 +69,7 @@ namespace Catalog_Online.Controllers
             User user = new()
             {
                 Id = id,
+                RoleId = dto.RoleId,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Email = dto.Email,
@@ -81,7 +82,7 @@ namespace Catalog_Online.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public ActionResult<User> DeleteUserData([FromBody] int id)
+        public ActionResult<User> DeleteUserData(int id)
         {
  
             var result = _userService.DeleteUserData(id);

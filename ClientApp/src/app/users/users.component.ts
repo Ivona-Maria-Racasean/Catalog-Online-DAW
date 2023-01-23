@@ -123,6 +123,10 @@ export class UsersComponent implements OnInit {
       this.validationErrors = errorList;
       return;
     }
+
+    if(this.newUserRole != '1'){
+      registerFormValue.yearOfStudy = "-1";
+    }
     
     const formValues = { ...registerFormValue };
     const user: UserForRegistrationDto = {
@@ -140,13 +144,13 @@ export class UsersComponent implements OnInit {
   
     this.userService.Register(user).subscribe(
       (_) => {
+        this.refreshDisplayedTable();
+        this.refreshNewUserForm()
         Swal.fire({
           icon: "success",
           title: "Your account has been created",
           showConfirmButton: true,
-        }).then((result) => {
-          this._router.navigate(["/"]);
-        });
+        })
       },
       (error) => {
         if (error.error.errors) {
@@ -216,6 +220,53 @@ export class UsersComponent implements OnInit {
     this.userForm.controls["class"].reset("");
     this.userForm.controls["registrationNumber"].reset("");
     this.userForm.controls["yearOfStudy"].reset("");
+  }
+
+  async deleteUser(user){
+    console.log(user)
+    const resp = await Swal.fire({
+      icon: 'warning',
+      text: `Are you sure you want to delete ${user.firstName} ${user.lastName}. This action is permanent.`,
+      confirmButtonText: "Yes",
+      confirmButtonColor: "green",
+      showDenyButton: true,
+      denyButtonText: "No",
+      denyButtonColor: "red"
+    })
+
+    if(resp.isConfirmed){
+      this.userService.DeleteTeacher(user.userId).subscribe(async _res => {
+        this.refreshDisplayedTable()
+        Swal.fire({
+          icon: "success",
+          title: "Success",
+          text: "The user was deleted successfuly"
+        })
+      }, err => {
+        console.log(err)
+        Swal.fire({
+          icon: "error",
+          title: "Oops...",
+          text: "Sorry something went wrong, please try again later."
+        })
+      })
+    }
+
+  }
+
+  async refreshDisplayedTable(){
+    this.users = await this.userService.GetAllUserData().toPromise();
+    this.displayedUsers = this.users;
+    this.dataSource = new MatTableDataSource<User>(this.displayedUsers);
+    if (this.matPaginator) {
+      this.dataSource.paginator = this.matPaginator;
+    }
+    this.roleChange();
+  }
+
+  refreshNewUserForm(){
+    this.userForm.reset();
+    this.userForm.controls['role'].setValue("1")
   }
 
 }

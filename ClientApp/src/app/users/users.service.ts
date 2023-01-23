@@ -31,5 +31,8 @@ export class UsersService {
     return this.httpClient.post<RegistrationTeacherResponseDto>(this.baseAPiUrl + '/api/user/teacher', body);
   }
 
+  DeleteTeacher(userId: string){
+    return this.httpClient.delete(this.baseAPiUrl + `/api/user/${userId}`);
+  }
 
 }
