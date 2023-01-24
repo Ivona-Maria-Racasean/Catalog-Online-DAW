@@ -32,6 +32,7 @@ export class AcademicTranscriptComponent implements OnInit {
   async ngOnInit() {
     this.currentUser = await this.authService.getCurrentUser().toPromise()
     this.transcript = await this.transcriptService.GetTranscript().toPromise();
+    console.log(this.transcript)
     this.selectedYear = "0"
     this.orderingMethod = "0"
     this.canGeneratePdf = this.canGenerateCertificatePDF();

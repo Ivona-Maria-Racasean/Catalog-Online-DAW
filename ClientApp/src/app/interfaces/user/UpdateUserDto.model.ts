@@ -4,4 +4,7 @@ export interface UpdateUserData {
   email: string;
   address: string;
   phoneNumber: string;
+  yearOfStudying: string;
+  class: string;
+  registrationNumber: string;
 }

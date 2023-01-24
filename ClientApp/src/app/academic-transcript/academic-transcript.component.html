@@ -7,10 +7,25 @@
             <div class="col"><h3>Student info</h3></div>
           </div>
           <div class="row">
-            <div class="col-12"> <b>Name:</b> {{this.currentUser.firstName}} {{this.currentUser.lastName}}</div>
-            <div class="col-12"><b>Register number: </b> {{this.transcript.enrolmentData.registrationNumber}}</div>
-            <div class="col-12"><b>Academic year: </b> {{this.transcript.enrolmentData.yearOfStudying}}</div>
-            <div class="col-12"><b>Class: </b> {{this.transcript.enrolmentData.class}}</div>
+            <div class="col-6"> <b>Name:</b> {{this.currentUser.firstName}} {{this.currentUser.lastName}}</div>
+            
+            <div *ngIf="this.transcript.meanGradeFirstYear !=0" class="col-6 text-right"> <b>First year mean grade:</b>    {{transcript.meanGradeFirstYear.toFixed(2)}} </div>
+            <div *ngIf="this.transcript.meanGradeFirstYear ==0" class="col-6"></div>
+            
+            <div class="col-6"><b>Register number: </b> {{this.transcript.enrolmentData.registrationNumber}}</div>
+            
+            <div *ngIf="this.transcript.meanGradeSecondYear !=0" class="col-6 text-right"> <b>Second year mean grade:</b> {{transcript.meanGradeSecondYear.toFixed(2)}} </div>
+            <div *ngIf="this.transcript.meanGradeSecondYear ==0" class="col-6"> </div>
+            
+            <div class="col-6"><b>Academic year: </b> {{this.transcript.enrolmentData.yearOfStudying}}</div>
+            
+            <div *ngIf="this.transcript.meanGradeThirdYear !=0" class="col-6 text-right"> <b>Third year mean grade:</b> {{transcript.meanGradeThirdYear.toFixed(2)}} </div>
+            <div *ngIf="this.transcript.meanGradeThirdYear ==0" class="col-6"></div>
+            
+            <div class="col-6"><b>Class: </b> {{this.transcript.enrolmentData.class}}</div>
+            
+            <div *ngIf="this.transcript.meanGradeFourthYear !=0" class="col-6 text-right"> <b>Fourth year mean grade:</b> {{transcript.meanGradeFourthYear.toFixed(2)}} </div>
+            <div *ngIf="this.transcript.meanGradeFourthYear ==0" class="col-6"></div>
           </div>
         </div>
         <div class="row">

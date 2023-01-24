@@ -37,7 +37,7 @@
     <div class="form-group row">
       <label for="role" class="col-form-label col-sm-2">Role:</label>
       <div class="col-md-5">
-        <select [ngModelOptions]="{standalone: true}" [(ngModel)]="this.user.roleId" class="form-control" id="role" for="role">
+        <select disabled [ngModelOptions]="{standalone: true}" [(ngModel)]="this.user.roleId" class="form-control" id="role" for="role">
           <option value="1">Student</option>
           <option value="2">Teacher</option>
           <option value="3">Secretary</option>
@@ -63,7 +63,7 @@
     <div *ngIf="this.user.roleId == '1'" class="form-group row">
       <label for="class" class="col-form-label col-sm-2">Class:</label>
       <div class="col-md-5">
-        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="this.studentData.yearOfStudying" type="text" id="class" class="form-control"/>
+        <input [ngModelOptions]="{standalone: true}" [(ngModel)]="this.studentData.class" type="text" id="class" class="form-control"/>
       </div>
     </div>
 

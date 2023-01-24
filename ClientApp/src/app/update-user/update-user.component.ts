@@ -46,8 +46,12 @@ export class UpdateUserComponent implements OnInit {
   }
 
   submitUpdate(){
-    const updatedUserData: UpdateUserData = {...this.user}
-    console.log(updatedUserData)
+    const updatedUserData: UpdateUserData = {...this.studentData, ...this.user}
+
+    if(this.user.roleId != "1"){
+      updatedUserData.yearOfStudying = "0";
+    }
+
     this.updateService.UpdateUserData(this.userId, updatedUserData).subscribe(res => {
       Swal.fire({
         icon: "success",

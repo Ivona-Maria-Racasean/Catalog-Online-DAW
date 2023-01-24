@@ -135,7 +135,7 @@ export class CataloguesComponent implements OnInit {
 
 
     if(this.selectedClass != 'Choose class'){
-      doc.save(this.selectedClass + 'catalogue')
+      doc.save(`Class ${this.selectedClass} - catalogue`)
     }
 
     if(this.selectedSubject != 'Choose subject'){

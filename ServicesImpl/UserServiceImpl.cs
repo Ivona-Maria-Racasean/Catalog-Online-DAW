@@ -146,7 +146,6 @@ namespace Catalog_Online.Managers
 
             originalUserData.Id = newUserData.Id;
             originalUserData.FirstName = newUserData.FirstName;
-            originalUserData.RoleId = newUserData.RoleId;
             originalUserData.LastName = newUserData.LastName;
             originalUserData.Email = newUserData.Email;
             originalUserData.Address = newUserData.Address;

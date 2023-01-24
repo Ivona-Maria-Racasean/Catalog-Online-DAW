@@ -91,10 +91,8 @@ namespace Catalog_Online.ServicesImpl
             var originalStudentData = _context.StudentsData.FirstOrDefault(sd => sd.Id == id);
             if (originalStudentData == null) return null;
 
-            originalStudentData.Id = newStudentData.Id;
             originalStudentData.RegistrationNumber = newStudentData.RegistrationNumber; 
             originalStudentData.YearOfStudying = newStudentData.YearOfStudying;
-            originalStudentData.UserId = newStudentData.UserId; 
             originalStudentData.Class = newStudentData.Class;   
 
             _context.SaveChanges();

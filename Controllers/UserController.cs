@@ -69,7 +69,6 @@ namespace Catalog_Online.Controllers
             User user = new()
             {
                 Id = id,
-                RoleId = dto.RoleId,
                 FirstName = dto.FirstName,
                 LastName = dto.LastName,
                 Email = dto.Email,
@@ -78,6 +77,19 @@ namespace Catalog_Online.Controllers
             };
 
             var result = _userService.UpdateUserData(user, id);
+
+            if(result.RoleId == 1) { 
+                var studentData = new StudentData();
+                studentData.UserId = result.Id;
+                studentData.YearOfStudying = dto.YearOfStudying;
+                studentData.Class = dto.Class;
+                studentData.RegistrationNumber = dto.RegistrationNumber;
+
+                var currentStudentData = this._studentDataService.GetByUserId(studentData.UserId);
+                this._studentDataService.UpdateStudentData(studentData, currentStudentData.Id);
+
+            }
+
             return Ok(result);
         }
 

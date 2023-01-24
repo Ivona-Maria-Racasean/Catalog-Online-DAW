@@ -40,4 +40,9 @@ export class MarksComponent implements OnInit {
       }
     })
   }
+
+  getMark(mark: string): string{
+    return mark == '0' ? "N/A" : mark;
+  }
+
 }
